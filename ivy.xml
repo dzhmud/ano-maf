@@ -1,5 +1,5 @@
 <ivy-module version="2.0">
-    <info organisation="anotheria.net.net" module="ano-maf"/>
+    <info organisation="anotheria.net" module="ano-maf"/>
 	<configurations >
 		<conf name="jar" />
 	</configurations>	
