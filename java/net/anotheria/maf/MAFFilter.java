@@ -13,6 +13,8 @@ import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.log4j.Logger;
+
 import net.java.dev.moskito.core.predefined.Constants;
 import net.java.dev.moskito.core.predefined.FilterStats;
 import net.java.dev.moskito.core.predefined.ServletStats;
@@ -36,6 +38,8 @@ public class MAFFilter implements Filter, IStatsProducer{
 	 */
 	private String path;
 	
+	private static Logger log = Logger.getLogger(MAFFilter.class);
+	
 	@Override
 	public void destroy() {
 		
@@ -50,6 +54,15 @@ public class MAFFilter implements Filter, IStatsProducer{
 		path = config.getInitParameter("path");
 		if (path==null)
 			path = "";
+		
+		List<ActionMappingsConfigurator> configurators = getConfigurators();
+		for (ActionMappingsConfigurator configurator : configurators){
+			try{
+				configurator.configureActionMappings();
+			}catch(Throwable t){
+				log.fatal("Configuration failed by configurator "+configurator, t);
+			}
+		}
 	}
 
 	@Override public void doFilter(ServletRequest sreq, ServletResponse sres,	FilterChain chain) throws IOException, ServletException {
@@ -160,6 +173,10 @@ public class MAFFilter implements Filter, IStatsProducer{
 
 	@Override public String getCategory() {
 		return "filter";
+	}
+	
+	protected List<ActionMappingsConfigurator> getConfigurators(){
+		return new ArrayList<ActionMappingsConfigurator>();
 	}
 	
 }
