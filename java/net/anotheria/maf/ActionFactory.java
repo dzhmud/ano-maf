@@ -24,4 +24,8 @@ public final class ActionFactory {
 		}
 		return action;
 	}
+	
+	private ActionFactory(){
+		//hide constuctor.
+	}
 }

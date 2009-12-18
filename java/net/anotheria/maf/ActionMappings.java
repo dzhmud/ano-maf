@@ -3,6 +3,11 @@ package net.anotheria.maf;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
+/**
+ * Configuration of the Framework. This class contains all mappings the framework will react on.
+ * @author another
+ *
+ */
 public final class ActionMappings {
 	
 	private static final Map<String, String> aliases = new ConcurrentHashMap<String, String>();
