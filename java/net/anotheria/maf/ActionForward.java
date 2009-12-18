@@ -1,15 +1,21 @@
 package net.anotheria.maf;
 
 public class ActionForward {
-	String name;  
-	String path;
+	/**
+	 * Name of the forward.
+	 */
+	private String name;  
+	/**
+	 * Target path of the forward.
+	 */
+	private String path;
 	
 	public ActionForward(String aName, String aPath){
 		name = aName;
 		path = aPath;
 	}
 	  
-	public String toString(){
+	@Override public String toString(){
 		return name+"->"+path;
 	}
 	
