@@ -3,6 +3,11 @@ package net.anotheria.maf;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * A factory which creates action instances on the fly and manages created instances. 
+ * @author lrosenberg
+ *
+ */
 public final class ActionFactory {
 	
 	private static final Map<String, Action> instances = new HashMap<String, Action>();

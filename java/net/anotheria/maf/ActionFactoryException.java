@@ -7,6 +7,10 @@ public class ActionFactoryException extends Exception {
 	 */
 	private static final long serialVersionUID = 738036982942005924L;
 
+	/**
+	 * Creates a new ActionFactoryException.
+	 * @param source
+	 */
 	public ActionFactoryException(Exception source) {
 		super("Action instantiation failed because: " + source.getMessage(), source);
 	}

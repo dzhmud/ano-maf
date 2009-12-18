@@ -2,7 +2,10 @@ package net.anotheria.maf;
 
 import java.util.HashMap;
 import java.util.Map;
-
+/**
+ * An action mapping is a combination of enter path for an action, class name of the class which executes the action and a map of possible forwards.  
+ * @author lrosenberg
+ */
 public class ActionMapping {
 	/**
 	 * Path for the action to react to.

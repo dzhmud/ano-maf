@@ -23,6 +23,12 @@ import net.java.dev.moskito.core.producers.IStatsProducer;
 import net.java.dev.moskito.core.registry.ProducerRegistryFactory;
 import net.java.dev.moskito.core.stats.Interval;
 
+/**
+ * MAFFilter is the dispatcher filter of the MAF. We are using a Filter instead of Servlet to be able to inject MAF parts in huge we-map-everything-through-one-servlet systems (aka spring).
+ * In particular it is useful to inject moskito-webui which is maf-based into an existing spring application.
+ * @author lrosenberg
+ *
+ */
 public class MAFFilter implements Filter, IStatsProducer{
 
 	/**
@@ -38,6 +44,9 @@ public class MAFFilter implements Filter, IStatsProducer{
 	 */
 	private String path;
 	
+	/**
+	 * Log.
+	 */
 	private static Logger log = Logger.getLogger(MAFFilter.class);
 	
 	@Override
@@ -90,7 +99,7 @@ public class MAFFilter implements Filter, IStatsProducer{
 			
 	}
  
-	public final void doPerform(HttpServletRequest req, HttpServletResponse res, String servletPath) throws ServletException, IOException {
+	private void doPerform(HttpServletRequest req, HttpServletResponse res, String servletPath) throws ServletException, IOException {
 		getStats.addRequest();
 		long startTime = System.nanoTime();
 		try{
@@ -175,6 +184,10 @@ public class MAFFilter implements Filter, IStatsProducer{
 		return "filter";
 	}
 	
+	/**
+	 * Overwrite this method and return configurators for your project.
+	 * @return
+	 */
 	protected List<ActionMappingsConfigurator> getConfigurators(){
 		return new ArrayList<ActionMappingsConfigurator>();
 	}
