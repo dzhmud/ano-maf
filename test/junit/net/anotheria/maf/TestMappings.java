@@ -7,10 +7,12 @@ import java.util.List;
 import javax.servlet.FilterConfig;
 import javax.servlet.ServletContext;
 
+import org.junit.Before;
 import org.junit.Test;
+import static org.junit.Assert.*;
 
 public class TestMappings {
-	@Test public void xyz() throws Exception{
+	@Before public void setup() throws Exception{
 		
 		MAFFilter filter = new MAFFilter(){
 			protected List<ActionMappingsConfigurator> getConfigurators(){
@@ -61,7 +63,39 @@ public class TestMappings {
 		
 		filter.init(config);
 		
+	}
+	
+	@Test public void testMappings(){
+		assertNotNull(ActionMappings.findMapping("simple"));
+		assertNotNull(ActionMappings.findMapping("multi"));
+		
+		assertNull(ActionMappings.findMapping("nonexisting"));
+		
+		assertNotNull(ActionMappings.findMapping("simple").findForward("simple"));
+		assertNull(ActionMappings.findMapping("simple").findForward("not-existing"));
 		
 	}
 	
+	@Test public void testAlias(){
+		assertNotNull(ActionMappings.findMapping("verysimple"));
+		assertNotNull(ActionMappings.findMapping("simple").findForward("simple"));
+		assertNull(ActionMappings.findMapping("simple").findForward("not-existing"));
+	}
+	
+	@Test public void testForward(){
+		ActionMapping mapping = ActionMappings.findMapping("multi");
+		ActionForward f1 = mapping.findForward("varianta");
+		ActionForward f1_1 = mapping.findForward("varianta");
+		ActionForward f2 = mapping.findForward("variantb");
+		ActionForward f3 = mapping.findForward("variantc");
+		ActionForward f4 = mapping.findForward("not-existing");
+		
+		assertEquals(f1, f1_1);
+		assertFalse(f1.equals(f2));
+		assertFalse(f1.equals(f3));
+		assertFalse(f1.equals(f4));
+		
+	}
+
+
 }

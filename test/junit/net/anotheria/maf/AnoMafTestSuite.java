@@ -5,7 +5,7 @@ import org.junit.runners.Suite;
 import org.junit.runners.Suite.SuiteClasses;
 
 @RunWith(value=Suite.class)
-@SuiteClasses({ActionFactoryTest.class})
+@SuiteClasses({ActionFactoryTest.class, TestMappings.class})
 public class AnoMafTestSuite {
 	
 }
