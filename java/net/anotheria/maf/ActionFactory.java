@@ -31,6 +31,6 @@ public final class ActionFactory {
 	}
 	
 	private ActionFactory(){
-		//hide constuctor.
+		//hide constructor.
 	}
 }
