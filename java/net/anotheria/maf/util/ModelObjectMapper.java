@@ -7,9 +7,9 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * Guitar Model Object.
+ * Model Object mapper.
  * <p/>
- * <P>Various attributes of guitars, and related behaviour.
+ * <P>Used to map request parameters to to model bean.
  * <p/>
  *
  * @author vitaliy
@@ -24,7 +24,7 @@ public final class ModelObjectMapper {
 	 * </p>
 	 * <p>
 	 * Internal model bean content can be mapped using Dozer notation
-	 * (arrays, collections) for parameter name 
+	 * (arrays, collections) for parameter name.
 	 * </p>
 	 *
 	 * @param req http request object

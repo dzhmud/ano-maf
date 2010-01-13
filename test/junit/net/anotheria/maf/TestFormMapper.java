@@ -1,12 +1,10 @@
 package net.anotheria.maf;
 
 import net.anotheria.maf.util.ModelObjectMapper;
-import net.anotheria.webutils.servlet.request.HttpServletRequestMockImpl;
 import net.anotheria.webutils.servlet.request.MockServletRequestFactory;
 import org.junit.Assert;
 import org.junit.Test;
 
-import javax.print.attribute.standard.Destination;
 import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
 import java.util.Locale;
@@ -30,7 +28,7 @@ public class TestFormMapper {
 		ModelObjectMapper.map(req, destination);
 
 		// then
-		Assert.assertEquals(Integer.valueOf(params.get("a1")), Integer.valueOf(destination.getA1()));		
+		Assert.assertEquals(Integer.valueOf(params.get("a1")), Integer.valueOf(destination.getA1()));
 
 	}
 
