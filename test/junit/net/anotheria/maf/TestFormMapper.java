@@ -22,7 +22,7 @@ public class TestFormMapper {
 		// given
 		Map<String, String> params = new HashMap<String, String>();
 		params.put("a1", "1");
-		params.put("a.sizeOfA", "7");
+
 		Map<String, Object> attributes = new HashMap<String, Object>();
 		HttpServletRequest req = MockServletRequestFactory.createMockedRequest(params, attributes, CONTEXT_PATH, SERVER_NAME, Locale.ENGLISH, 80);
 		CompositeObject destination = new CompositeObject();
@@ -30,13 +30,12 @@ public class TestFormMapper {
 		ModelObjectMapper.map(req, destination);
 
 		// then
-		Assert.assertEquals(Integer.valueOf(params.get("a1")), Integer.valueOf(destination.getA1()));
-		Assert.assertEquals(Integer.valueOf(params.get("a.sizeOfA")), Integer.valueOf(destination.getA().getSizeOfA()));
+		Assert.assertEquals(Integer.valueOf(params.get("a1")), Integer.valueOf(destination.getA1()));		
 
 	}
 
 
-	private class CompositeObject {
+	public class CompositeObject {
 		private A a;
 		private int a1;
 
@@ -48,7 +47,7 @@ public class TestFormMapper {
 			this.a = a;
 		}
 
-		private class A {
+		public class A {
 			private int sizeOfA;
 
 			public int getSizeOfA() {

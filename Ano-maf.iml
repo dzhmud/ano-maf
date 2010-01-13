@@ -40,6 +40,17 @@
           <root url="jar:///home/vitaliy/.ivy2/cache/org.json/json/jars/json-stable.jar!/" />
         </CLASSES>
         <JAVADOC />
+        <SOURCES>
+          <root url="file://$MODULE_DIR$/../ano-util/java" />
+        </SOURCES>
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="file://$MODULE_DIR$/etc" />
+        </CLASSES>
+        <JAVADOC />
         <SOURCES />
       </library>
     </orderEntry>

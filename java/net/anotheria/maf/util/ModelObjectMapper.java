@@ -3,6 +3,7 @@ package net.anotheria.maf.util;
 import net.anotheria.util.mapper.ValueObjectMapperUtil;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -30,7 +31,7 @@ public final class ModelObjectMapper {
 	 * @param destination given model bean
 	 */
 	public static void map(HttpServletRequest req, Object destination) {
-		final Map<String, Object> parameterMap = req.getParameterMap();
+		final Map<String, Object> parameterMap = new HashMap<String, Object>(req.getParameterMap());
 		ValueObjectMapperUtil.map(parameterMap, destination);
 	}
 }
