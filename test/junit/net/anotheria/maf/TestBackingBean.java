@@ -1,6 +1,6 @@
 package net.anotheria.maf;
 
-public class TestBackingBean implements IFormBean {
+public class TestBackingBean implements FormBean {
 
 	private int subject;
 	private int requestId;

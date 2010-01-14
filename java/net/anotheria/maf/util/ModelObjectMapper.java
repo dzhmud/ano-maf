@@ -1,9 +1,9 @@
 package net.anotheria.maf.util;
 
+import net.anotheria.maf.Action;
 import net.anotheria.maf.ActionMapping;
-import net.anotheria.maf.CustomAction;
+import net.anotheria.maf.Form;
 import net.anotheria.maf.FormBean;
-import net.anotheria.maf.IFormBean;
 import net.anotheria.util.mapper.ValueObjectMapperUtil;
 import org.apache.log4j.Logger;
 
@@ -54,15 +54,15 @@ public final class ModelObjectMapper {
 		ValueObjectMapperUtil.map(parameterMap, destination);
 	}
 
-	public static <T extends CustomAction> IFormBean getModelObjectMapped(final HttpServletRequest req, final T action) {
+	public static <T extends Action> FormBean getModelObjectMapped(final HttpServletRequest req, final T action) {
 		try {
-			Method executeMethod = action.getClass().getDeclaredMethod("execute", ActionMapping.class, IFormBean.class);
+			Method executeMethod = action.getClass().getDeclaredMethod("execute", ActionMapping.class, FormBean.class);
 			Annotation[] formAnnotations = executeMethod.getParameterAnnotations()[1];
 
 			for (Annotation formAnnotation : formAnnotations) {
-				if (FormBean.class.equals(formAnnotation.annotationType())) {
-					FormBean bean = (FormBean) formAnnotation;
-					IFormBean formBean = bean.value().newInstance();
+				if (Form.class.equals(formAnnotation.annotationType())) {
+					Form bean = (Form) formAnnotation;
+					FormBean formBean = bean.value().newInstance();
 					ModelObjectMapper.map(req, formBean);
 					return formBean;
 				}

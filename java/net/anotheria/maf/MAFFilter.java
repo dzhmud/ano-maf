@@ -120,13 +120,10 @@ public class MAFFilter implements Filter, IStatsProducer{
 			final ActionForward forward;
 			try{
 				action.preProcess(mapping, req, res);
-                if(action instanceof CustomAction) {
-                    CustomAction customAction = (CustomAction) action;
-                    forward = customAction.execute(mapping,
-                            ModelObjectMapper.getModelObjectMapped(req, customAction));
-                } else {
-				    forward = action.execute(mapping, req, res);
-                }
+
+                forward = action.execute(mapping,
+                            ModelObjectMapper.getModelObjectMapped(req, action), req, res);
+
 				action.postProcess(mapping, req, res);
 			}catch(Exception e){
 				throw new ServletException("Error in processing: "+e.getMessage(), e);

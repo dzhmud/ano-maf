@@ -3,10 +3,13 @@ package net.anotheria.maf;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-public class TestCustomAction implements Action, CustomAction {
+public class TestCustomAction implements Action {
 
     @Override
-    public ActionForward execute(ActionMapping mapping, HttpServletRequest req,
+    public ActionForward execute(ActionMapping mapping,
+								 @Form(TestBackingBean.class)
+								 FormBean form,
+								 HttpServletRequest req,
                                  HttpServletResponse res) throws Exception {
         // TODO Auto-generated method stub
         return null;
@@ -26,10 +29,4 @@ public class TestCustomAction implements Action, CustomAction {
 
     }
 
-    @Override
-    public ActionForward execute(ActionMapping mapping,
-                                 @FormBean(TestBackingBean.class)
-                                 IFormBean IForm) throws Exception {
-        return null;
-    }
 }
