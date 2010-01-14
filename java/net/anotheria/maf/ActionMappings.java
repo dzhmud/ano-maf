@@ -14,15 +14,15 @@ public final class ActionMappings {
 	private static final Map<String, ActionMapping> mappings = new ConcurrentHashMap<String, ActionMapping>(); 
 
 	
-	public static final void addMapping(String path, String type, ActionForward... forwards){
+	public static void addMapping(String path, String type, ActionForward... forwards){
 		mappings.put(path, new ActionMapping(path, type, forwards));
 	}
 	
-	public static final void addAlias(String sourcePath, String targetPath){
+	public static void addAlias(String sourcePath, String targetPath){
 		aliases.put(sourcePath, targetPath);
 	}
 	
-	protected static final ActionMapping findMapping(String actionPath){
+	protected static ActionMapping findMapping(String actionPath){
 		String alias = aliases.get(actionPath);
 		if (alias!=null)
 			return findMapping(alias);
