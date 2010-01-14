@@ -91,7 +91,7 @@ public class MAFFilter implements Filter, IStatsProducer{
 		if (!(servletPath==null)){
 			if (path.length()==0 || servletPath.startsWith(path)){
 				doPerform(req, res, servletPath);
-				//optionaly allow the chain to run further?
+				//optionally allow the chain to run further?
 				return;
 			}
 		}
