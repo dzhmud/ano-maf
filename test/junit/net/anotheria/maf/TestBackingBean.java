@@ -1,5 +1,7 @@
 package net.anotheria.maf;
 
+import net.anotheria.maf.bean.FormBean;
+
 public class TestBackingBean implements FormBean {
 
 	private int subject;

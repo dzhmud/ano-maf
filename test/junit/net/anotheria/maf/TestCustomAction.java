@@ -1,5 +1,8 @@
 package net.anotheria.maf;
 
+import net.anotheria.maf.bean.Form;
+import net.anotheria.maf.bean.FormBean;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 

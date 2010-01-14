@@ -2,8 +2,8 @@ package net.anotheria.maf.util;
 
 import net.anotheria.maf.Action;
 import net.anotheria.maf.ActionMapping;
-import net.anotheria.maf.Form;
-import net.anotheria.maf.FormBean;
+import net.anotheria.maf.bean.Form;
+import net.anotheria.maf.bean.FormBean;
 import net.anotheria.util.mapper.ValueObjectMapperUtil;
 import org.apache.log4j.Logger;
 
@@ -54,15 +54,23 @@ public final class ModelObjectMapper {
 		for (Cookie cookie : req.getCookies()) {
 			parameterMap.put(cookie.getName(), cookie.getValue());
 		}
-		final Enumeration<String> headerNames = req.getHeaderNames();
+		final Enumeration headerNames = req.getHeaderNames();
 		while(headerNames.hasMoreElements()) {
-			String name = headerNames.nextElement();
+			String name = (String) headerNames.nextElement();
 			parameterMap.put(name, req.getHeader(name));
 		}
 
 		ValueObjectMapperUtil.map(parameterMap, destination);
 	}
 
+	/**
+	 * Map http request to model object by action annotations.
+	 *
+	 * @param req http request
+	 * @param action given action
+	 * @param <T> action type
+	 * @return instantiated bean
+	 */
 	public static <T extends Action> FormBean getModelObjectMapped(final HttpServletRequest req, final T action) {
 		try {
 			Method executeMethod = action.getClass().getDeclaredMethod("execute", ActionMapping.class, FormBean.class);
