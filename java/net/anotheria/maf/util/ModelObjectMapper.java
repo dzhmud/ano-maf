@@ -14,9 +14,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * Guitar Model Object.
- * <p/>
- * <P>Various attributes of guitars, and related behaviour.
+ * Model Object mapper.
  * <p/>
  *
  * @author vitaliy
