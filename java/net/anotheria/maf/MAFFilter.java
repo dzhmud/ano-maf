@@ -13,6 +13,7 @@ import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import net.anotheria.maf.util.ModelObjectMapper;
 import org.apache.log4j.Logger;
 
 import net.java.dev.moskito.core.predefined.Constants;
@@ -82,7 +83,7 @@ public class MAFFilter implements Filter, IStatsProducer{
 		
 		HttpServletRequest req = (HttpServletRequest)sreq;
 		HttpServletResponse res = (HttpServletResponse)sres;
-		
+		doPerform(req, res, "testAction");
 		String servletPath = req.getServletPath();
 		if (servletPath==null || servletPath.length()==0)
 			servletPath = req.getPathInfo();
@@ -94,7 +95,7 @@ public class MAFFilter implements Filter, IStatsProducer{
 				return;
 			}
 		}
-		
+
 		chain.doFilter(req, res);
 			
 	}
@@ -116,10 +117,16 @@ public class MAFFilter implements Filter, IStatsProducer{
 				throw new ServletException("Can't instantiate "+mapping.getType()+" for path: "+actionPath+", because: "+e.getMessage(), e);
 			}
 			
-			ActionForward forward = null;
+			final ActionForward forward;
 			try{
-				action.preProcess(mapping, req, res); 
-				forward = action.execute(mapping, req, res);
+				action.preProcess(mapping, req, res);
+                if(action instanceof CustomAction) {
+                    CustomAction customAction = (CustomAction) action;
+                    forward = customAction.execute(mapping,
+                            ModelObjectMapper.getModelObjectMapped(req, customAction));
+                } else {
+				    forward = action.execute(mapping, req, res);
+                }
 				action.postProcess(mapping, req, res);
 			}catch(Exception e){
 				throw new ServletException("Error in processing: "+e.getMessage(), e);
@@ -128,8 +135,7 @@ public class MAFFilter implements Filter, IStatsProducer{
 			if (forward!=null){
 				req.getRequestDispatcher(forward.getPath()).forward(req, res);
 			}	
-			
-			return;
+
 		}catch(ServletException e){
 			getStats.notifyServletException();
 			throw e;
@@ -151,7 +157,7 @@ public class MAFFilter implements Filter, IStatsProducer{
 
 
 	@Override public List<IStats> getStats() {
-		return (List<IStats>)cachedStatList;
+		return cachedStatList;
 	}
 
 	/**
