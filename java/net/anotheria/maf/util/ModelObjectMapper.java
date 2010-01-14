@@ -1,15 +1,22 @@
 package net.anotheria.maf.util;
 
+import net.anotheria.maf.ActionMapping;
+import net.anotheria.maf.CustomAction;
+import net.anotheria.maf.FormBean;
+import net.anotheria.maf.IFormBean;
 import net.anotheria.util.mapper.ValueObjectMapperUtil;
+import org.apache.log4j.Logger;
 
 import javax.servlet.http.HttpServletRequest;
+import java.lang.annotation.Annotation;
+import java.lang.reflect.Method;
 import java.util.HashMap;
 import java.util.Map;
 
 /**
- * Model Object mapper.
- * <p/>                            	
- * <P>Used to map request parameters to to model bean.
+ * Guitar Model Object.
+ * <p/>
+ * <P>Various attributes of guitars, and related behaviour.
  * <p/>
  *
  * @author vitaliy
@@ -19,8 +26,10 @@ import java.util.Map;
  */
 public final class ModelObjectMapper {
 
+	private static final Logger LOGGER = Logger.getLogger(ModelObjectMapper.class);
+
 	/**
-	 * Default hidden constructor
+	 * Default constructor.
 	 */
 	private ModelObjectMapper() {
 	}
@@ -30,14 +39,41 @@ public final class ModelObjectMapper {
 	 * </p>
 	 * <p>
 	 * Internal model bean content can be mapped using Dozer notation
-	 * (arrays, collections) for parameter name.
+	 * (arrays, collections) for parameter name
 	 * </p>
 	 *
-	 * @param req http request object
+	 * @param req		 http request object
 	 * @param destination given model bean
 	 */
 	public static void map(final HttpServletRequest req, final Object destination) {
-		final Map<String, Object> parameterMap = new HashMap<String, Object>(req.getParameterMap());
+		final Map<String, String> parameterMap = new HashMap<String, String>();
+		for (Object key : req.getParameterMap().keySet()) {
+			String reqKey = String.valueOf(key);
+			parameterMap.put(reqKey, req.getParameter(reqKey));
+		}
 		ValueObjectMapperUtil.map(parameterMap, destination);
+	}
+
+	public static <T extends CustomAction> IFormBean getModelObjectMapped(final HttpServletRequest req, final T action) {
+		try {
+			Method executeMethod = action.getClass().getDeclaredMethod("execute", ActionMapping.class, IFormBean.class);
+			Annotation[] formAnnotations = executeMethod.getParameterAnnotations()[1];
+
+			for (Annotation formAnnotation : formAnnotations) {
+				if (FormBean.class.equals(formAnnotation.annotationType())) {
+					FormBean bean = (FormBean) formAnnotation;
+					IFormBean formBean = bean.value().newInstance();
+					ModelObjectMapper.map(req, formBean);
+					return formBean;
+				}
+			}
+		} catch (NoSuchMethodException e) {
+			LOGGER.error(e);
+		} catch (InstantiationException e) {
+			LOGGER.error(e);
+		} catch (IllegalAccessException e) {
+			LOGGER.error(e);
+		}
+		return null;
 	}
 }
