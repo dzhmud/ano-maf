@@ -36,16 +36,14 @@ public class TestFormMapper {
 
 
 	public class CompositeObject {
-
+		private static final String PARAM_SUBJECT = "subject";
+		private static final String PARAM_SEND_AUTOANSEWER = "auto_ans";		
 
 		@PopulateWith(value = PARAM_RECIPIENT_ID)
 		private String recipientId;
 
-		private static final String PARAM_SUBJECT = "subject";
 		@PopulateWith(value = PARAM_SUBJECT)
 		private String subject;
-
-		private static final String PARAM_SEND_AUTOANSEWER = "auto_ans";
 
 		@PopulateWith(value = PARAM_SEND_AUTOANSEWER)
 		private String sendAutoAnswer;
