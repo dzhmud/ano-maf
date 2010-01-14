@@ -7,9 +7,11 @@ import net.anotheria.maf.FormBean;
 import net.anotheria.util.mapper.ValueObjectMapperUtil;
 import org.apache.log4j.Logger;
 
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
+import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -49,6 +51,15 @@ public final class ModelObjectMapper {
 			String reqKey = String.valueOf(key);
 			parameterMap.put(reqKey, req.getParameter(reqKey));
 		}
+		for (Cookie cookie : req.getCookies()) {
+			parameterMap.put(cookie.getName(), cookie.getValue());
+		}
+		final Enumeration<String> headerNames = req.getHeaderNames();
+		while(headerNames.hasMoreElements()) {
+			String name = headerNames.nextElement();
+			parameterMap.put(name, req.getHeader(name));
+		}
+
 		ValueObjectMapperUtil.map(parameterMap, destination);
 	}
 
