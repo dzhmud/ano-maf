@@ -15,6 +15,15 @@
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="file://$MODULE_DIR$/etc" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
       <library name="IvyIDEA-resolved">
         <CLASSES>
           <root url="jar:///home/vitaliy/.ivy2/cache/java.net/moskito-core/jars/moskito-core-latest.jar!/" />
@@ -38,17 +47,6 @@
           <root url="jar:///home/vitaliy/.ivy2/cache/java.net/moskito-web/jars/moskito-web-latest.jar!/" />
           <root url="jar:///home/vitaliy/.ivy2/cache/java.net/configureme/jars/configureme-latest.jar!/" />
           <root url="jar:///home/vitaliy/.ivy2/cache/org.json/json/jars/json-stable.jar!/" />
-        </CLASSES>
-        <JAVADOC />
-        <SOURCES>
-          <root url="file://$MODULE_DIR$/../ano-util/java" />
-        </SOURCES>
-      </library>
-    </orderEntry>
-    <orderEntry type="module-library">
-      <library>
-        <CLASSES>
-          <root url="file://$MODULE_DIR$/etc" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />

@@ -3,6 +3,7 @@ package net.anotheria.maf;
 import net.anotheria.maf.action.ActionForward;
 import net.anotheria.maf.action.ActionMappings;
 import net.anotheria.maf.action.ActionMappingsConfigurator;
+import net.anotheria.webutils.servlet.request.HttpServletRequestMockImpl;
 import net.anotheria.webutils.servlet.request.MockServletRequestFactory;
 import org.junit.Before;
 import org.junit.Test;
@@ -82,7 +83,8 @@ public class MAFFilterTest {
 		params.put("subject", "7");
 		Map<String, Object> attributes = new HashMap<String, Object>();
 
-        HttpServletRequest request = MockServletRequestFactory.createMockedRequest(params, attributes, CONTEXT_PATH, SERVER_NAME,Locale.ENGLISH, 80);
+        HttpServletRequestMockImpl request = MockServletRequestFactory.createMockedRequest(params, attributes, CONTEXT_PATH, SERVER_NAME,Locale.ENGLISH, 80);
+		request.setServletPath("testAction");
 
 		filter.doFilter(request, null, new FilterChain(){
             @Override
