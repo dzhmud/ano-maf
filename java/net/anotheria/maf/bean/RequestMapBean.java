@@ -1,74 +1,75 @@
 package net.anotheria.maf.bean;
 
-import java.util.Collection;
-import java.util.HashMap;
 import java.util.Map;
-import java.util.Set;
 
 /**
- * Marker interface used to define form backing bean
+ * Marker interface used to define form backing bean.
+ * <p/>
+ *
+ * @author vitaliy
+ * @version 1.0
+ *          Date: Jan 12, 2010
+ *          Time: 1:42:18 AM
  */
-public class RequestMapBean implements FormBean, Map<String, Object> {
-	private Map<String, Object> params = new HashMap<String, Object>();
+public class RequestMapBean implements FormBean {
 
-	@Override
-	public int size() {
-		return params.size();
+	/**
+	 * Request parameters
+	 */
+	private final Map<String, Object> parameters;
+
+	/**
+	 * Cookie.
+	 */
+	private final Map<String, String> cookie;
+
+	/**
+	 * HTTP headers.
+	 */
+	private final Map<String, String> header;
+
+	/**
+	 * Default constructor
+	 *
+	 * @param parameters http parameters
+	 * @param cookie http cookies
+	 * @param header http headers
+	 */
+	public RequestMapBean(final Map<String, Object> parameters, final Map<String, String> cookie, final Map<String, String> header) {
+		this.parameters = parameters;
+		this.cookie = cookie;
+		this.header = header;
+	}
+
+	/**
+	 * @return get http parameters
+	 */
+	public final Map<String, Object> getParameters() {
+		return parameters;
+	}
+
+	/**
+	 *
+	 * @return cookie collection.
+	 */
+	public final Map<String, String> getCookie() {
+		return cookie;
+	}
+
+	/**
+	 *
+	 * @return http headers.
+	 */
+	public final Map<String, String> getHeader() {
+		return header;
 	}
 
 	@Override
-	public boolean isEmpty() {
-		return params.isEmpty();
-	}
-
-	@Override
-	public boolean containsKey(Object o) {
-		return params.containsKey(o);
-	}
-
-	@Override
-	public boolean containsValue(Object o) {
-		return params.containsValue(o);
-	}
-
-	@Override
-	public Object get(Object o) {
-		return params.get(o);
-	}
-
-	@Override
-	public Object put(String s, Object o) {
-		return params.put(s, o);
-	}
-
-
-	@Override
-	public Object remove(Object o) {
-		return params.remove(o);
-	}
-
-	@Override
-	public void putAll(Map map) {
-		params.putAll(map);
-	}
-
-	@Override
-	public void clear() {
-		params.clear();
-	}
-
-	@Override
-	public Set keySet() {
-		return params.keySet();
-	}
-
-	@Override
-	public Collection values() {
-		return params.values();
-	}
-
-	@Override
-	public Set entrySet() {
-		return params.entrySet();
+	public final String toString() {
+		return "RequestMapBean{"
+				+ "parameters=" + parameters
+				+ ", cookie=" + cookie
+				+ ", header=" + header
+				+ '}';
 	}
 }

@@ -20,12 +20,12 @@ public interface Action {
 	void preProcess(ActionMapping mapping, HttpServletRequest req, HttpServletResponse res) throws Exception;
 	/**
 	 * Called by the framework. This is the method where you implement controller-logic (mvc) in your action.  
-	 * @param mapping
-	 * @param formBean
-	 * @param req
-	 * @param res
+	 * @param mapping action mapping
+	 * @param formBean backing bean
+	 * @param req http request
+	 * @param res http response
 	 * @return a forward to another action or jsp for view rendering.
-	 * @throws Exception
+	 * @throws Exception any exception
 	 */
 	ActionForward execute(ActionMapping mapping, FormBean formBean, HttpServletRequest req, HttpServletResponse res) throws Exception;
 	/**
