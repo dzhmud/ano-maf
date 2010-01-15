@@ -1,4 +1,6 @@
-package net.anotheria.maf.bean;
+package net.anotheria.maf.bean.annotations;
+
+import net.anotheria.maf.bean.FormBean;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

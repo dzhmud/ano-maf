@@ -1,7 +1,8 @@
 package net.anotheria.maf;
 
-import net.anotheria.maf.bean.Form;
+import net.anotheria.maf.bean.annotations.Form;
 import net.anotheria.maf.bean.FormBean;
+import net.anotheria.maf.bean.annotations.RequestMap;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -10,7 +11,8 @@ public class TestCustomAction implements Action {
 
     @Override
     public ActionForward execute(ActionMapping mapping,
-								 @Form(TestBackingBean.class)
+								// @Form(TestBackingBean.class)
+								 @RequestMap
 								 FormBean form,
 								 HttpServletRequest req,
                                  HttpServletResponse res) throws Exception {

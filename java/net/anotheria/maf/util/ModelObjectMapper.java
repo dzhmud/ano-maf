@@ -2,8 +2,10 @@ package net.anotheria.maf.util;
 
 import net.anotheria.maf.Action;
 import net.anotheria.maf.ActionMapping;
-import net.anotheria.maf.bean.Form;
+import net.anotheria.maf.bean.RequestMapBean;
+import net.anotheria.maf.bean.annotations.Form;
 import net.anotheria.maf.bean.FormBean;
+import net.anotheria.maf.bean.annotations.RequestMap;
 import net.anotheria.util.mapper.ValueObjectMapperUtil;
 import org.apache.log4j.Logger;
 
@@ -27,6 +29,7 @@ import java.util.Map;
 public final class ModelObjectMapper {
 
 	private static final Logger LOGGER = Logger.getLogger(ModelObjectMapper.class);
+	private static final String EXECUTE = "execute";
 
 	/**
 	 * Default constructor.
@@ -73,7 +76,7 @@ public final class ModelObjectMapper {
 	 */
 	public static <T extends Action> FormBean getModelObjectMapped(final HttpServletRequest req, final T action) {
 		try {
-			Method executeMethod = action.getClass().getDeclaredMethod("execute", ActionMapping.class, FormBean.class);
+			Method executeMethod = action.getClass().getDeclaredMethod(EXECUTE, ActionMapping.class, FormBean.class);
 			Annotation[] formAnnotations = executeMethod.getParameterAnnotations()[1];
 
 			for (Annotation formAnnotation : formAnnotations) {
@@ -82,6 +85,10 @@ public final class ModelObjectMapper {
 					FormBean formBean = bean.value().newInstance();
 					ModelObjectMapper.map(req, formBean);
 					return formBean;
+				} else if(RequestMap.class.equals(formAnnotation.annotationType())) {
+					RequestMapBean requestMapBean = new RequestMapBean();
+					ModelObjectMapper.map(req, requestMapBean);
+					return requestMapBean;
 				}
 				
 			}
