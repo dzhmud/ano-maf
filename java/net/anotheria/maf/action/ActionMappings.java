@@ -1,4 +1,4 @@
-package net.anotheria.maf;
+package net.anotheria.maf.action;
 
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
@@ -22,7 +22,7 @@ public final class ActionMappings {
 		aliases.put(sourcePath, targetPath);
 	}
 	
-	protected static ActionMapping findMapping(String actionPath){
+	public static ActionMapping findMapping(String actionPath){
 		String alias = aliases.get(actionPath);
 		if (alias!=null)
 			return findMapping(alias);

@@ -1,4 +1,4 @@
-package net.anotheria.maf;
+package net.anotheria.maf.action;
 
 import net.anotheria.maf.bean.FormBean;
 

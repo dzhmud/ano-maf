@@ -1,4 +1,4 @@
-package net.anotheria.maf;
+package net.anotheria.maf.action;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -12,7 +12,7 @@ public final class ActionFactory {
 	
 	private static final Map<String, Action> instances = new HashMap<String, Action>();
 	
-	static Action getInstanceOf(String actionType) throws ActionFactoryException{
+	public static Action getInstanceOf(String actionType) throws ActionFactoryException{
 		Action action = instances.get(actionType);
 		if (action!=null)
 			return action;

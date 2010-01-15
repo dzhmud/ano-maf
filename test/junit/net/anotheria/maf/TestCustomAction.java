@@ -1,6 +1,8 @@
 package net.anotheria.maf;
 
-import net.anotheria.maf.bean.annotations.Form;
+import net.anotheria.maf.action.Action;
+import net.anotheria.maf.action.ActionForward;
+import net.anotheria.maf.action.ActionMapping;
 import net.anotheria.maf.bean.FormBean;
 import net.anotheria.maf.bean.annotations.RequestMap;
 

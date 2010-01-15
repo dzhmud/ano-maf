@@ -13,6 +13,7 @@ import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import net.anotheria.maf.action.*;
 import net.anotheria.maf.util.ModelObjectMapper;
 import org.apache.log4j.Logger;
 
@@ -83,7 +84,6 @@ public class MAFFilter implements Filter, IStatsProducer{
 		
 		HttpServletRequest req = (HttpServletRequest)sreq;
 		HttpServletResponse res = (HttpServletResponse)sres;
-		doPerform(req, res, "testAction");
 		String servletPath = req.getServletPath();
 		if (servletPath==null || servletPath.length()==0)
 			servletPath = req.getPathInfo();

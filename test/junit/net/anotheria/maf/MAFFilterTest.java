@@ -1,5 +1,8 @@
 package net.anotheria.maf;
 
+import net.anotheria.maf.action.ActionForward;
+import net.anotheria.maf.action.ActionMappings;
+import net.anotheria.maf.action.ActionMappingsConfigurator;
 import net.anotheria.webutils.servlet.request.MockServletRequestFactory;
 import org.junit.Before;
 import org.junit.Test;

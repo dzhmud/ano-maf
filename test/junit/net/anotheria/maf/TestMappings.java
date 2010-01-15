@@ -7,6 +7,10 @@ import java.util.List;
 import javax.servlet.FilterConfig;
 import javax.servlet.ServletContext;
 
+import net.anotheria.maf.action.ActionForward;
+import net.anotheria.maf.action.ActionMapping;
+import net.anotheria.maf.action.ActionMappings;
+import net.anotheria.maf.action.ActionMappingsConfigurator;
 import org.junit.Before;
 import org.junit.Test;
 import static org.junit.Assert.*;

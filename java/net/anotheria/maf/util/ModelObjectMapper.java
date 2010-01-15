@@ -1,7 +1,7 @@
 package net.anotheria.maf.util;
 
-import net.anotheria.maf.Action;
-import net.anotheria.maf.ActionMapping;
+import net.anotheria.maf.action.Action;
+import net.anotheria.maf.action.ActionMapping;
 import net.anotheria.maf.bean.RequestMapBean;
 import net.anotheria.maf.bean.annotations.Form;
 import net.anotheria.maf.bean.FormBean;
@@ -72,10 +72,9 @@ public final class ModelObjectMapper {
 	 *
 	 * @param req http request
 	 * @param action given action
-	 * @param <T> action type
 	 * @return instantiated bean
 	 */
-	public static <T extends Action> FormBean getModelObjectMapped(final HttpServletRequest req, final T action) {
+	public static FormBean getModelObjectMapped(final HttpServletRequest req, final Action action) {
 		try {
 			Method executeMethod = action.getClass().getDeclaredMethod(EXECUTE, ActionMapping.class, FormBean.class,
 					HttpServletRequest.class, HttpServletResponse.class);

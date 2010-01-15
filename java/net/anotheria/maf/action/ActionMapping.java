@@ -1,4 +1,4 @@
-package net.anotheria.maf;
+package net.anotheria.maf.action;
 
 import java.util.HashMap;
 import java.util.Map;

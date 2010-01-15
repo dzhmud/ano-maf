@@ -1,4 +1,4 @@
-package net.anotheria.maf;
+package net.anotheria.maf.action;
 
 public interface ActionMappingsConfigurator {
 	void configureActionMappings();
