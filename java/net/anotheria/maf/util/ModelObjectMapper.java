@@ -11,6 +11,7 @@ import org.apache.log4j.Logger;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
 import java.util.Enumeration;
@@ -76,7 +77,8 @@ public final class ModelObjectMapper {
 	 */
 	public static <T extends Action> FormBean getModelObjectMapped(final HttpServletRequest req, final T action) {
 		try {
-			Method executeMethod = action.getClass().getDeclaredMethod(EXECUTE, ActionMapping.class, FormBean.class);
+			Method executeMethod = action.getClass().getDeclaredMethod(EXECUTE, ActionMapping.class, FormBean.class,
+					HttpServletRequest.class, HttpServletResponse.class);
 			Annotation[] formAnnotations = executeMethod.getParameterAnnotations()[1];
 
 			for (Annotation formAnnotation : formAnnotations) {

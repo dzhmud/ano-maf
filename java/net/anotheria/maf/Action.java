@@ -21,6 +21,7 @@ public interface Action {
 	/**
 	 * Called by the framework. This is the method where you implement controller-logic (mvc) in your action.  
 	 * @param mapping
+	 * @param formBean
 	 * @param req
 	 * @param res
 	 * @return a forward to another action or jsp for view rendering.
