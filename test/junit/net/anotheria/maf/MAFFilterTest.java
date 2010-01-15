@@ -84,7 +84,7 @@ public class MAFFilterTest {
 		Map<String, Object> attributes = new HashMap<String, Object>();
 
         HttpServletRequestMockImpl request = MockServletRequestFactory.createMockedRequest(params, attributes, CONTEXT_PATH, SERVER_NAME,Locale.ENGLISH, 80);
-		request.setServletPath("testAction");
+		
 
 		filter.doFilter(request, null, new FilterChain(){
             @Override
