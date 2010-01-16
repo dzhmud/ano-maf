@@ -1,6 +1,6 @@
 package net.anotheria.maf;
 
-import net.anotheria.maf.util.ModelObjectMapper;
+import net.anotheria.maf.util.FormObjectMapper;
 import net.anotheria.util.mapper.PopulateWith;
 import net.anotheria.webutils.servlet.request.MockServletRequestFactory;
 import org.junit.Assert;
@@ -27,7 +27,7 @@ public class TestFormMapper {
 		HttpServletRequest req = MockServletRequestFactory.createMockedRequest(params, attributes, CONTEXT_PATH, SERVER_NAME, Locale.ENGLISH, 80);
 		CompositeObject destination = new CompositeObject();
 		// when
-		ModelObjectMapper.map(req, destination);
+		FormObjectMapper.map(req, destination);
 
 		// then
 		Assert.assertEquals(Integer.valueOf(params.get("a1")), Integer.valueOf(destination.getA1()));

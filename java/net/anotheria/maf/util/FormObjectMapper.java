@@ -27,12 +27,12 @@ import java.util.Map;
  *          Date: Jan 12, 2010
  *          Time: 1:42:18 AM
  */
-public final class ModelObjectMapper {
+public final class FormObjectMapper {
 
 	/**
 	 * Mapper log.
 	 */
-	private static final Logger LOGGER = Logger.getLogger(ModelObjectMapper.class);
+	private static final Logger LOGGER = Logger.getLogger(FormObjectMapper.class);
 
 	/**
 	 * action execute method name.
@@ -42,7 +42,7 @@ public final class ModelObjectMapper {
 	/**
 	 * Default constructor.
 	 */
-	private ModelObjectMapper() {
+	private FormObjectMapper() {
 	}
 
 	/**
@@ -84,11 +84,11 @@ public final class ModelObjectMapper {
 				if (Form.class.equals(formAnnotation.annotationType())) {
 					final Form bean = (Form) formAnnotation;
 					final FormBean formBean = bean.value().newInstance();
-					ModelObjectMapper.map(req, formBean);
+					FormObjectMapper.map(req, formBean);
 					return formBean;
 				} else if (RequestMap.class.equals(formAnnotation.annotationType())) {
 					final Map<String, Object> parameters = new HashMap<String, Object>();
-					ModelObjectMapper.map(req, parameters);
+					FormObjectMapper.map(req, parameters);
 
 					final Enumeration headerNames = req.getHeaderNames();
 					final Map<String, String> headerMap = new HashMap<String, String>();

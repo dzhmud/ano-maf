@@ -14,7 +14,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import net.anotheria.maf.action.*;
-import net.anotheria.maf.util.ModelObjectMapper;
+import net.anotheria.maf.util.FormObjectMapper;
 import org.apache.log4j.Logger;
 
 import net.java.dev.moskito.core.predefined.Constants;
@@ -122,7 +122,7 @@ public class MAFFilter implements Filter, IStatsProducer{
 				action.preProcess(mapping, req, res);
 
                 forward = action.execute(mapping,
-                            ModelObjectMapper.getModelObjectMapped(req, action), req, res);
+                            FormObjectMapper.getModelObjectMapped(req, action), req, res);
 
 				action.postProcess(mapping, req, res);
 			}catch(Exception e){
