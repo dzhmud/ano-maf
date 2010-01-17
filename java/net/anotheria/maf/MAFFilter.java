@@ -14,7 +14,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import net.anotheria.maf.action.*;
+import net.anotheria.maf.bean.FormBean;
 import net.anotheria.maf.util.FormObjectMapper;
+import net.anotheria.maf.validation.ValidationError;
+import net.anotheria.maf.validation.ValidationException;
 import org.apache.log4j.Logger;
 
 import net.java.dev.moskito.core.predefined.Constants;
@@ -120,11 +123,17 @@ public class MAFFilter implements Filter, IStatsProducer{
 			final ActionForward forward;
 			try{
 				action.preProcess(mapping, req, res);
-
+				FormBean bean = FormObjectMapper.getModelObjectMapped(req, action);
+				List<ValidationError> errors = FormObjectMapper.validate(req, bean);
+				if(!errors.isEmpty()) {
+					throw new ValidationException("Mapper validation failed", errors);
+				}
                 forward = action.execute(mapping,
-                            FormObjectMapper.getModelObjectMapped(req, action), req, res);
+                            bean, req, res);
 
 				action.postProcess(mapping, req, res);
+			}catch(ValidationException e){
+				throw new ServletException("Error in processing: "+e.getMessage(), e);
 			}catch(Exception e){
 				throw new ServletException("Error in processing: "+e.getMessage(), e);
 			}
