@@ -6,6 +6,10 @@ import net.anotheria.maf.bean.FormBean;
 import net.anotheria.maf.bean.RequestMapBean;
 import net.anotheria.maf.bean.annotations.Form;
 import net.anotheria.maf.bean.annotations.RequestMap;
+import net.anotheria.maf.validation.ValidationError;
+import net.anotheria.maf.validation.Validator;
+import net.anotheria.maf.validation.annotations.ValidateCustom;
+import net.anotheria.maf.validation.annotations.ValidateNotEmpty;
 import net.anotheria.util.mapper.ValueObjectMapperUtil;
 import org.apache.log4j.Logger;
 
@@ -13,10 +17,9 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.lang.annotation.Annotation;
+import java.lang.reflect.Field;
 import java.lang.reflect.Method;
-import java.util.Enumeration;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Model Object mapper.
@@ -114,5 +117,48 @@ public final class FormObjectMapper {
 			LOGGER.error(e);
 		}
 		return null;
+	}
+
+	/**
+	 * Validate mapped bean according defined preconditions.
+	 *
+	 * @param req  http request
+	 * @param bean backing bean
+	 */
+	public static List<ValidationError> validate(final HttpServletRequest req, final Object bean) {
+		List<ValidationError> errors = new ArrayList<ValidationError>();
+
+		final Class beanClass = bean.getClass();
+		final Field[] fields = beanClass.getDeclaredFields();
+		for (Field field : fields) {
+			try {
+				final ValidateNotEmpty validateNotEmpty = field.getAnnotation(ValidateNotEmpty.class);
+				if (validateNotEmpty != null) {
+					field.setAccessible(true);
+					Object value = field.get(bean);
+					if (value == null
+							|| String.valueOf(value).isEmpty()) {
+						errors.add(new ValidationError(field.getName(), validateNotEmpty.key(), validateNotEmpty.message()));
+					}
+				}
+				final ValidateCustom validateCustom = field.getAnnotation(ValidateCustom.class);
+				if (validateCustom != null) {
+					field.setAccessible(true);
+					Object value = field.get(bean);
+
+
+					Validator validator = validateCustom.validator().newInstance();
+					//noinspection unchecked
+					if (!validator.validate(value)) {
+						errors.add(new ValidationError(field.getName(), validateCustom.key(), validateCustom.message()));
+					}
+				}
+			} catch (IllegalAccessException e) {
+				LOGGER.error(e);
+			} catch (InstantiationException e) {
+				LOGGER.error(e);
+			}
+		}
+		return errors;
 	}
 }
