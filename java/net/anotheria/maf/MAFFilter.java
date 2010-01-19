@@ -16,6 +16,7 @@ import javax.servlet.http.HttpServletResponse;
 import net.anotheria.maf.action.*;
 import net.anotheria.maf.bean.FormBean;
 import net.anotheria.maf.util.FormObjectMapper;
+import net.anotheria.maf.validation.ValidateAware;
 import net.anotheria.maf.validation.ValidationError;
 import net.anotheria.maf.validation.ValidationException;
 import org.apache.log4j.Logger;
@@ -126,6 +127,9 @@ public class MAFFilter implements Filter, IStatsProducer{
 				FormBean bean = FormObjectMapper.getModelObjectMapped(req, action);
 				List<ValidationError> errors = FormObjectMapper.validate(req, bean);
 				if(!errors.isEmpty()) {
+					if(action instanceof ValidateAware) {
+						((ValidateAware)action).processErrors(req, errors);
+					}
 					throw new ValidationException("Mapper validation failed", errors);
 				}
                 forward = action.execute(mapping,
