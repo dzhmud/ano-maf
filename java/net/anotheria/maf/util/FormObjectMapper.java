@@ -79,7 +79,7 @@ public final class FormObjectMapper {
 	 */
 	public static FormBean getModelObjectMapped(final HttpServletRequest req, final Action action) {
 		try {
-			final Method executeMethod = action.getClass().getDeclaredMethod(EXECUTE, ActionMapping.class, FormBean.class,
+			final Method executeMethod = action.getClass().getMethod(EXECUTE, ActionMapping.class, FormBean.class,
 					HttpServletRequest.class, HttpServletResponse.class);
 			final Annotation[] formAnnotations = executeMethod.getParameterAnnotations()[1];
 
