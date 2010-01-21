@@ -16,7 +16,7 @@ import javax.servlet.http.HttpServletResponse;
 import net.anotheria.maf.action.*;
 import net.anotheria.maf.bean.FormBean;
 import net.anotheria.maf.util.FormObjectMapper;
-import net.anotheria.maf.validation.ValidateAware;
+import net.anotheria.maf.validation.ValidationAware;
 import net.anotheria.maf.validation.ValidationError;
 import net.anotheria.maf.validation.ValidationException;
 import org.apache.log4j.Logger;
@@ -121,21 +121,22 @@ public class MAFFilter implements Filter, IStatsProducer{
 				throw new ServletException("Can't instantiate "+mapping.getType()+" for path: "+actionPath+", because: "+e.getMessage(), e);
 			}
 			
-			final ActionForward forward;
+			ActionForward forward = null;
 			try{
 				action.preProcess(mapping, req, res);
 				FormBean bean = FormObjectMapper.getModelObjectMapped(req, action);
 				if(bean != null){
 					List<ValidationError> errors = FormObjectMapper.validate(req, bean);
 					if(!errors.isEmpty()) {
-						if(action instanceof ValidateAware) {
-							((ValidateAware)action).processErrors(req, errors);
+						if(action instanceof ValidationAware) {
+							forward = ((ValidationAware)action).executeOnValidationError(mapping, bean, errors, req, res);
+						}else{
+							throw new ServletException("Mapper validation failed: "+errors);
 						}
-						throw new ValidationException("Mapper validation failed", errors);
 					}
 				}
-                forward = action.execute(mapping,
-                            bean, req, res);
+				if (forward!=null)
+					forward = action.execute(mapping, bean, req, res);
 
 				action.postProcess(mapping, req, res);
 			}catch(ValidationException e){
