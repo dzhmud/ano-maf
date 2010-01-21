@@ -125,12 +125,14 @@ public class MAFFilter implements Filter, IStatsProducer{
 			try{
 				action.preProcess(mapping, req, res);
 				FormBean bean = FormObjectMapper.getModelObjectMapped(req, action);
-				List<ValidationError> errors = FormObjectMapper.validate(req, bean);
-				if(!errors.isEmpty()) {
-					if(action instanceof ValidateAware) {
-						((ValidateAware)action).processErrors(req, errors);
+				if(bean != null){
+					List<ValidationError> errors = FormObjectMapper.validate(req, bean);
+					if(!errors.isEmpty()) {
+						if(action instanceof ValidateAware) {
+							((ValidateAware)action).processErrors(req, errors);
+						}
+						throw new ValidationException("Mapper validation failed", errors);
 					}
-					throw new ValidationException("Mapper validation failed", errors);
 				}
                 forward = action.execute(mapping,
                             bean, req, res);
