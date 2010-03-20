@@ -135,7 +135,7 @@ public class MAFFilter implements Filter, IStatsProducer{
 						}
 					}
 				}
-				if (forward!=null)
+				if (forward==null)
 					forward = action.execute(mapping, bean, req, res);
 
 				action.postProcess(mapping, req, res);
