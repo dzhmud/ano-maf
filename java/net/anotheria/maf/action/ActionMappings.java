@@ -18,6 +18,10 @@ public final class ActionMappings {
 		mappings.put(path, new ActionMapping(path, type, forwards));
 	}
 	
+	public static void addMapping(String path, Class<? extends Action> type, ActionForward... forwards){
+		mappings.put(path, new ActionMapping(path, type.getName(), forwards));
+	}
+
 	public static void addAlias(String sourcePath, String targetPath){
 		aliases.put(sourcePath, targetPath);
 	}
