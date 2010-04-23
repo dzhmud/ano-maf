@@ -1,4 +1,4 @@
-package net.anotheria.maf;
+	package net.anotheria.maf;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -109,6 +109,10 @@ public class MAFFilter implements Filter, IStatsProducer{
 		long startTime = System.nanoTime();
 		try{
 			String actionPath = servletPath.substring(path.length());
+			if (actionPath==null || actionPath.length()==0){
+				if (getDefaultActionName()!=null)
+					actionPath = getDefaultActionName();
+			}
 			ActionMapping mapping = ActionMappings.findMapping(actionPath);
 			if (mapping == null){
 				res.sendError(404, "Action "+actionPath+" not found.");
@@ -209,6 +213,14 @@ public class MAFFilter implements Filter, IStatsProducer{
 	 */
 	protected List<ActionMappingsConfigurator> getConfigurators(){
 		return new ArrayList<ActionMappingsConfigurator>();
+	}
+	
+	/**
+	 * if not null an empty path is replaced by this default action name, for example 'index'.
+	 * @return
+	 */
+	protected String getDefaultActionName(){
+		return null;
 	}
 	
 }
