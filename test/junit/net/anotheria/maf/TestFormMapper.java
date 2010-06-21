@@ -1,6 +1,7 @@
 package net.anotheria.maf;
 
 import net.anotheria.maf.util.FormObjectMapper;
+import net.anotheria.util.mapper.PopulateMe;
 import net.anotheria.util.mapper.PopulateWith;
 import net.anotheria.webutils.servlet.request.MockServletRequestFactory;
 import org.junit.Assert;
@@ -49,7 +50,9 @@ public class TestFormMapper {
 		private String sendAutoAnswer;
 
 		private A a;
-		private int a1;
+		
+		@PopulateMe(all = true)
+		private String a1;
 
 		public A getA() {
 			return a;
@@ -71,11 +74,11 @@ public class TestFormMapper {
 			}
 		}
 
-		public int getA1() {
+		public String getA1() {
 			return a1;
 		}
 
-		public void setA1(int a1) {
+		public void setA1(String a1) {
 			this.a1 = a1;
 		}
 

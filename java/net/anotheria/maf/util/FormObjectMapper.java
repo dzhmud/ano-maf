@@ -10,7 +10,8 @@ import net.anotheria.maf.validation.ValidationError;
 import net.anotheria.maf.validation.Validator;
 import net.anotheria.maf.validation.annotations.ValidateCustom;
 import net.anotheria.maf.validation.annotations.ValidateNotEmpty;
-import net.anotheria.util.mapper.ValueObjectMapperUtil;
+import net.anotheria.util.mapper.PopulateMe;
+import net.anotheria.util.mapper.PopulateWith;
 import org.apache.log4j.Logger;
 
 import javax.servlet.http.Cookie;
@@ -19,7 +20,11 @@ import javax.servlet.http.HttpServletResponse;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Enumeration;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Model Object mapper.
@@ -67,7 +72,28 @@ public final class FormObjectMapper {
 			parameterMap.put(reqKey, req.getParameter(reqKey));
 		}
 
-		ValueObjectMapperUtil.map(parameterMap, destination);
+		final Class destinationClass = destination.getClass();
+		final Field[] fields = destinationClass.getDeclaredFields();
+		for (Field field : fields) {
+			final PopulateWith populateWith = field.getAnnotation(PopulateWith.class);
+			if (populateWith != null) {
+				try {
+					field.setAccessible(true);
+					field.set(destination, parameterMap.get(populateWith.value()));
+				} catch (IllegalAccessException e) {
+					LOGGER.error(e.getMessage(), e);
+				}
+			}
+			final PopulateMe populateMe = field.getAnnotation(PopulateMe.class);
+			if (populateMe != null) {
+				try {
+					field.setAccessible(true);
+					field.set(destination, parameterMap.get(field.getName()));
+				} catch (IllegalAccessException e) {
+					LOGGER.error(e.getMessage(), e);
+				}
+			}
+		}
 	}
 
 	/**
