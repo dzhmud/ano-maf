@@ -12,6 +12,7 @@ import net.anotheria.maf.validation.annotations.ValidateCustom;
 import net.anotheria.maf.validation.annotations.ValidateNotEmpty;
 import net.anotheria.util.mapper.PopulateMe;
 import net.anotheria.util.mapper.PopulateWith;
+import net.anotheria.util.mapper.ValueObjectMapperUtil;
 import org.apache.log4j.Logger;
 
 import javax.servlet.http.Cookie;
@@ -65,12 +66,7 @@ public final class FormObjectMapper {
 	 * @param destination given model bean
 	 */
 	public static void map(final HttpServletRequest req, final Object destination) {
-		final Map<String, String> parameterMap = new HashMap<String, String>();
-
-		for (Object key : req.getParameterMap().keySet()) {
-			String reqKey = String.valueOf(key);
-			parameterMap.put(reqKey, req.getParameter(reqKey));
-		}
+        final Map<String, String> parameterMap = getRequestParameterMap(req);
 
 		final Class destinationClass = destination.getClass();
 		final Field[] fields = destinationClass.getDeclaredFields();
@@ -96,7 +92,17 @@ public final class FormObjectMapper {
 		}
 	}
 
-	/**
+    private static Map<String, String> getRequestParameterMap(HttpServletRequest req) {
+        final Map<String, String> parameterMap = new HashMap<String, String>();
+
+        for (Object key : req.getParameterMap().keySet()) {
+            String reqKey = String.valueOf(key);
+            parameterMap.put(reqKey, req.getParameter(reqKey));
+        }
+        return parameterMap;
+    }
+
+    /**
 	 * Map http request to model object by action annotations.
 	 *
 	 * @param req	http request
@@ -113,7 +119,8 @@ public final class FormObjectMapper {
 				if (Form.class.equals(formAnnotation.annotationType())) {
 					final Form bean = (Form) formAnnotation;
 					final FormBean formBean = bean.value().newInstance();
-					FormObjectMapper.map(req, formBean);
+                                        final Map<String, String> parameterMap = getRequestParameterMap(req);					
+                                        ValueObjectMapperUtil.map(parameterMap, formBean);
 					return formBean;
 				} else if (RequestMap.class.equals(formAnnotation.annotationType())) {
 					final Map<String, Object> parameters = new HashMap<String, Object>();
