@@ -5,11 +5,12 @@ import net.anotheria.maf.action.ActionMappings;
 import net.anotheria.maf.action.ActionMappingsConfigurator;
 import net.anotheria.webutils.servlet.request.HttpServletRequestMockImpl;
 import net.anotheria.webutils.servlet.request.MockServletRequestFactory;
+import net.anotheria.webutils.servlet.session.MockHttpSessionFactory;
 import org.junit.Before;
 import org.junit.Test;
 
 import javax.servlet.*;
-import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.util.*;
 
@@ -82,8 +83,8 @@ public class MAFFilterTest {
 		params.put("requestId", "1");
 		params.put("subject", "7");
 		Map<String, Object> attributes = new HashMap<String, Object>();
-
-        HttpServletRequestMockImpl request = MockServletRequestFactory.createMockedRequest(params, attributes, CONTEXT_PATH, SERVER_NAME,Locale.ENGLISH, 80);
+		HttpSession mockedSession = new MockHttpSessionFactory().createMockedSession();
+        HttpServletRequestMockImpl request = MockServletRequestFactory.createMockedRequest(mockedSession, params, attributes, CONTEXT_PATH, SERVER_NAME,Locale.ENGLISH, 80);
 		
 
 		filter.doFilter(request, null, new FilterChain(){

@@ -4,10 +4,12 @@ import net.anotheria.maf.util.FormObjectMapper;
 import net.anotheria.util.mapper.PopulateMe;
 import net.anotheria.util.mapper.PopulateWith;
 import net.anotheria.webutils.servlet.request.MockServletRequestFactory;
+import net.anotheria.webutils.servlet.session.MockHttpSessionFactory;
 import org.junit.Assert;
 import org.junit.Test;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
@@ -25,7 +27,8 @@ public class TestFormMapper {
 		params.put(PARAM_RECIPIENT_ID, "12");
 
 		Map<String, Object> attributes = new HashMap<String, Object>();
-		HttpServletRequest req = MockServletRequestFactory.createMockedRequest(params, attributes, CONTEXT_PATH, SERVER_NAME, Locale.ENGLISH, 80);
+		HttpSession mockedSession = new MockHttpSessionFactory().createMockedSession();
+		HttpServletRequest req = MockServletRequestFactory.createMockedRequest(mockedSession, params, attributes, CONTEXT_PATH, SERVER_NAME, Locale.ENGLISH, 80);
 		CompositeObject destination = new CompositeObject();
 		// when
 		FormObjectMapper.map(req, destination);
