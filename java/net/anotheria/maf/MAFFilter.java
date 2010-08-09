@@ -188,7 +188,7 @@ public class MAFFilter implements Filter, IStatsProducer{
 	 * @return
 	 */
 	protected Interval[] getMonitoringIntervals(){
-		return Constants.DEFAULT_INTERVALS;
+		return Constants.getDefaultIntervals();
 	}
 	
 	/**
