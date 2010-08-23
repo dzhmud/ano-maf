@@ -1,7 +1,7 @@
 package net.anotheria.maf.action;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ConcurrentMap;
 
 /**
  * A factory which creates action instances on the fly and manages created instances. 
@@ -10,24 +10,27 @@ import java.util.Map;
  */
 public final class ActionFactory {
 	
-	private static final Map<String, Action> instances = new HashMap<String, Action>();
-	
+	/**
+	 * Stored created factory instances.
+	 */
+	private static final ConcurrentMap<String, Action> instances = new ConcurrentHashMap<String, Action>();
+	/**
+	 * Returns an instance of defined action type.
+	 * @param actionType
+	 * @return
+	 * @throws ActionFactoryException
+	 */
 	public static Action getInstanceOf(String actionType) throws ActionFactoryException{
 		Action action = instances.get(actionType);
 		if (action!=null)
 			return action;
-		synchronized(instances){
-			action = instances.get(actionType);
-			if (action!=null)
-				return action;
-			try{
-				action = (Action) Class.forName(actionType).newInstance();
-			}catch(Exception e){
-				throw new ActionFactoryException(e);
-			}
-			instances.put(actionType, action);
+		try{
+			action = (Action) Class.forName(actionType).newInstance();
+		}catch(Exception e){
+			throw new ActionFactoryException(e);
 		}
-		return action;
+		Action old = instances.putIfAbsent(actionType, action);
+		return old != null ? old : action;
 	}
 	
 	private ActionFactory(){
