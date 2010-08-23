@@ -1,5 +1,10 @@
 package net.anotheria.maf.action;
 
+/**
+ * Return object of an action execution. Defines the processing of action results.
+ * @author lrosenberg
+ *
+ */
 public class ActionForward {
 	/**
 	 * Name of the forward.
