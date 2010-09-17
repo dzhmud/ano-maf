@@ -29,6 +29,11 @@ public final class ActionMappings {
 	public static void addMapping(String path, String type, ActionForward... forwards){
 		mappings.put(path, new ActionMapping(path, type, forwards));
 	}
+	
+	public static void addForward(String actionPath, String forwardPath){
+		addMapping(actionPath, ForwardAction.class, new ActionForward("forward", forwardPath));
+	}
+	
 	/**
 	 * Adds a mapping.
 	 * @param path
