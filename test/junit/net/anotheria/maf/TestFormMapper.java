@@ -1,18 +1,20 @@
 package net.anotheria.maf;
 
-import net.anotheria.maf.util.FormObjectMapper;
-import net.anotheria.util.mapper.PopulateMe;
-import net.anotheria.util.mapper.PopulateWith;
-import net.anotheria.webutils.servlet.request.MockServletRequestFactory;
-import net.anotheria.webutils.servlet.session.MockHttpSessionFactory;
-import org.junit.Assert;
-import org.junit.Test;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+
+import net.anotheria.maf.mocks.MockHttpSessionFactory;
+import net.anotheria.maf.mocks.MockServletRequestFactory;
+import net.anotheria.maf.util.FormObjectMapper;
+import net.anotheria.util.mapper.PopulateMe;
+import net.anotheria.util.mapper.PopulateWith;
+
+import org.junit.Assert;
+import org.junit.Test;
 
 public class TestFormMapper {
 	private static final String CONTEXT_PATH = "/";

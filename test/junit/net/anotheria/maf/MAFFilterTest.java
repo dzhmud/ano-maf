@@ -1,18 +1,30 @@
 package net.anotheria.maf;
 
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Enumeration;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Locale;
+import java.util.Map;
+
+import javax.servlet.FilterChain;
+import javax.servlet.FilterConfig;
+import javax.servlet.ServletContext;
+import javax.servlet.ServletException;
+import javax.servlet.ServletRequest;
+import javax.servlet.ServletResponse;
+import javax.servlet.http.HttpSession;
+
 import net.anotheria.maf.action.ActionForward;
 import net.anotheria.maf.action.ActionMappings;
 import net.anotheria.maf.action.ActionMappingsConfigurator;
-import net.anotheria.webutils.servlet.request.HttpServletRequestMockImpl;
-import net.anotheria.webutils.servlet.request.MockServletRequestFactory;
-import net.anotheria.webutils.servlet.session.MockHttpSessionFactory;
+import net.anotheria.maf.mocks.HttpServletRequestMockImpl;
+import net.anotheria.maf.mocks.MockHttpSessionFactory;
+import net.anotheria.maf.mocks.MockServletRequestFactory;
+
 import org.junit.Before;
 import org.junit.Test;
-
-import javax.servlet.*;
-import javax.servlet.http.HttpSession;
-import java.io.IOException;
-import java.util.*;
 
 public class MAFFilterTest {
     private static final String CONTEXT_PATH = "/";
