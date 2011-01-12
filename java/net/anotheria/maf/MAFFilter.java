@@ -152,6 +152,7 @@ public class MAFFilter implements Filter, IStatsProducer{
 			}catch(ValidationException e){
 				throw new ServletException("Error in processing: "+e.getMessage(), e);
 			}catch(Exception e){
+				log.error("Unexpected exception in processing", e);
 				throw new ServletException("Error in processing: "+e.getMessage(), e);
 			}
 			
