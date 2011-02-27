@@ -13,6 +13,7 @@ import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import net.anotheria.maf.action.AbortExecutionException;
 import net.anotheria.maf.action.Action;
 import net.anotheria.maf.action.ActionFactory;
 import net.anotheria.maf.action.ActionFactoryException;
@@ -151,6 +152,8 @@ public class MAFFilter implements Filter, IStatsProducer{
 				action.postProcess(mapping, req, res);
 			}catch(ValidationException e){
 				throw new ServletException("Error in processing: "+e.getMessage(), e);
+			}catch(AbortExecutionException e){
+				//do nothing
 			}catch(Exception e){
 				log.error("Unexpected exception in processing", e);
 				throw new ServletException("Error in processing: "+e.getMessage(), e);
