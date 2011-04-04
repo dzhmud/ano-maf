@@ -100,15 +100,26 @@ public class MAFFilter implements Filter, IStatsProducer{
 			servletPath = req.getPathInfo();
 		
 		if (!(servletPath==null)){
-			if (path.length()==0 || servletPath.startsWith(path)){
+			if ((path.length()==0 || servletPath.startsWith(path)) && !isPathExcluded(servletPath)){
 				doPerform(req, res, servletPath);
 				//optionally allow the chain to run further?
 				return;
 			}
 		}
 
-		chain.doFilter(req, res);
-			
+		chain.doFilter(req, res);			
+	}
+	
+	/**
+	 * Decides whether the servlet path is excluded from execution by this filter.
+	 * Derived class can customize filter chain traversal procedure by
+	 * overriding this method.
+	 * 
+	 * @param servletPath path to the servlet.
+	 * @return true if can not be performed by this filter, false otherwise.
+	 */
+	protected boolean isPathExcluded(String servletPath) {
+		return false;
 	}
  
 	private void doPerform(HttpServletRequest req, HttpServletResponse res, String servletPath) throws ServletException, IOException {
