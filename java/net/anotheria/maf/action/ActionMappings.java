@@ -1,6 +1,5 @@
 package net.anotheria.maf.action;
 
-import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
@@ -19,6 +18,16 @@ public final class ActionMappings {
 	 * Action mappings.O
 	 */
 	private static final ConcurrentMap<String, ActionMapping> mappings = new ConcurrentHashMap<String, ActionMapping>(); 
+
+	/**
+	 * Adds a mapping.
+	 * @param path
+	 * @param type
+	 * @param commands
+	 */
+	public static void addMapping(String path, String type, ActionCommand... commands){
+		mappings.put(path, new ActionMapping(path, type, commands));
+	}
 
 	/**
 	 * Adds a mapping.

@@ -40,7 +40,9 @@ public class ActionMapping {
 		ActionCommand c = findCommand(name);
 		if (c instanceof ActionForward)
 			return (ActionForward)c;
-		throw new IllegalArgumentException("Command "+name+" is not a forward");
+		if (c!=null)
+			throw new IllegalArgumentException("Command "+name+" is not a forward");
+		return null;
 			
 	}
 	
