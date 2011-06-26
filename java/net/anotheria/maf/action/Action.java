@@ -27,7 +27,7 @@ public interface Action {
 	 * @return a forward to another action or jsp for view rendering.
 	 * @throws Exception any exception
 	 */
-	ActionForward execute(ActionMapping mapping, FormBean formBean, HttpServletRequest req, HttpServletResponse res) throws Exception;
+	ActionCommand execute(ActionMapping mapping, FormBean formBean, HttpServletRequest req, HttpServletResponse res) throws Exception;
 	/**
 	 * Called by the framework after call to the execute.
 	 * @param mapping

@@ -18,15 +18,15 @@ public class ActionMapping {
 	/**
 	 * Map with action forwards.
 	 */
-	private Map<String, ActionForward> forwards;
+	private Map<String, ActionCommand> commands;
 	
-	public ActionMapping(String aPath, String aType, ActionForward... someForwards){
+	public ActionMapping(String aPath, String aType, ActionCommand... someCommands){
 		path = aPath;
 		type = aType;
-		forwards = new HashMap<String, ActionForward>();
-		if (someForwards!=null)
-			for (ActionForward f : someForwards)
-				forwards.put(f.getName(), f);
+		commands = new HashMap<String, ActionCommand>();
+		if (someCommands!=null)
+			for (ActionCommand c : someCommands)
+				commands.put(c.getName(), c);
 		
 	}
 	
@@ -34,9 +34,18 @@ public class ActionMapping {
 	 * Returns a stored forward for the given forward name.
 	 * @param name
 	 * @return
+	 * @deprecated use findCommand instead.
 	 */
 	public ActionForward findForward(String name){
-		return forwards.get(name);
+		ActionCommand c = findCommand(name);
+		if (c instanceof ActionForward)
+			return (ActionForward)c;
+		throw new IllegalArgumentException("Command "+name+" is not a forward");
+			
+	}
+	
+	public ActionCommand findCommand(String name){
+		return commands.get(name);
 	}
 	
 	public String getPath(){

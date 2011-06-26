@@ -15,12 +15,15 @@ import javax.servlet.http.HttpServletResponse;
 
 import net.anotheria.maf.action.AbortExecutionException;
 import net.anotheria.maf.action.Action;
+import net.anotheria.maf.action.ActionCommand;
 import net.anotheria.maf.action.ActionFactory;
 import net.anotheria.maf.action.ActionFactoryException;
 import net.anotheria.maf.action.ActionForward;
 import net.anotheria.maf.action.ActionMapping;
 import net.anotheria.maf.action.ActionMappings;
 import net.anotheria.maf.action.ActionMappingsConfigurator;
+import net.anotheria.maf.action.CommandForward;
+import net.anotheria.maf.action.CommandRedirect;
 import net.anotheria.maf.bean.FormBean;
 import net.anotheria.maf.util.FormObjectMapper;
 import net.anotheria.maf.validation.ValidationAware;
@@ -143,7 +146,7 @@ public class MAFFilter implements Filter, IStatsProducer{
 				throw new ServletException("Can't instantiate "+mapping.getType()+" for path: "+actionPath+", because: "+e.getMessage(), e);
 			}
 			
-			ActionForward forward = null;
+			ActionCommand command = null;
 			try{
 				action.preProcess(mapping, req, res);
 				FormBean bean = FormObjectMapper.getModelObjectMapped(req, action);
@@ -151,14 +154,14 @@ public class MAFFilter implements Filter, IStatsProducer{
 					List<ValidationError> errors = FormObjectMapper.validate(req, bean);
 					if(!errors.isEmpty()) {
 						if(action instanceof ValidationAware) {
-							forward = ((ValidationAware)action).executeOnValidationError(mapping, bean, errors, req, res);
+							command = ((ValidationAware)action).executeOnValidationError(mapping, bean, errors, req, res);
 						}else{
 							throw new ServletException("Mapper validation failed: "+errors);
 						}
 					}
 				}
-				if (forward==null)
-					forward = action.execute(mapping, bean, req, res);
+				if (command==null)
+					command = action.execute(mapping, bean, req, res);
 
 				action.postProcess(mapping, req, res);
 			}catch(ValidationException e){
@@ -170,8 +173,26 @@ public class MAFFilter implements Filter, IStatsProducer{
 				throw new ServletException("Error in processing: "+e.getMessage(), e);
 			}
 			
-			if (forward!=null){
-				req.getRequestDispatcher(forward.getPath()).forward(req, res);
+			if (command!=null){
+				//support for 1.0 style
+				if (command instanceof ActionForward){
+					CommandForward forward = (CommandForward)command;
+					req.getRequestDispatcher(forward.getPath()).forward(req, res);
+				}
+				if (command instanceof CommandForward){
+					CommandForward forward = (CommandForward)command;
+					req.getRequestDispatcher(forward.getPath()).forward(req, res);
+				}
+				if (command instanceof CommandRedirect){
+					CommandRedirect redirect = (CommandRedirect)command;
+					if (redirect.getCode()==302){
+						res.sendRedirect(redirect.getTarget());
+					}else{
+						res.setHeader("Location", redirect.getTarget());
+						res.setStatus(redirect.getCode());
+					}
+						
+				}
 			}	
 
 		}catch(ServletException e){

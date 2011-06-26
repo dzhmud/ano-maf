@@ -1,13 +1,13 @@
 package net.anotheria.maf.validation;
 
+import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import net.anotheria.maf.action.ActionForward;
+import net.anotheria.maf.action.ActionCommand;
 import net.anotheria.maf.action.ActionMapping;
 import net.anotheria.maf.bean.FormBean;
-
-import java.util.List;
 
 /**
  * Custom error handler used to process validation errors,
@@ -31,5 +31,5 @@ public interface ValidationAware {
 	 * @return
 	 * @throws Exception
 	 */
-	ActionForward executeOnValidationError(ActionMapping mapping, FormBean formBean, List<ValidationError> errors, HttpServletRequest req, HttpServletResponse res) throws Exception;
+	ActionCommand executeOnValidationError(ActionMapping mapping, FormBean formBean, List<ValidationError> errors, HttpServletRequest req, HttpServletResponse res) throws Exception;
 }

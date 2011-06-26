@@ -3,29 +3,22 @@ package net.anotheria.maf.action;
 /**
  * Return object of an action execution. Defines the processing of action results.
  * @author lrosenberg
+ * @Deprecated use CommandForward instead.
  *
  */
-public class ActionForward {
-	/**
-	 * Name of the forward.
-	 */
-	private String name;  
+public class ActionForward extends ActionCommand{
 	/**
 	 * Target path of the forward.
 	 */
 	private String path;
 	
 	public ActionForward(String aName, String aPath){
-		name = aName;
+		super(aName);
 		path = aPath;
 	}
 	  
 	@Override public String toString(){
-		return name+"->"+path;
-	}
-	
-	public String getName(){
-		return name;
+		return getName()+"->"+path;
 	}
 	
 	public String getPath(){
