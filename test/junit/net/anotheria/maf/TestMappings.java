@@ -17,6 +17,7 @@ import net.anotheria.maf.action.ActionMapping;
 import net.anotheria.maf.action.ActionMappings;
 import net.anotheria.maf.action.ActionMappingsConfigurator;
 import net.anotheria.maf.action.CommandForward;
+import net.anotheria.maf.action.CommandRedirect;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -41,6 +42,12 @@ public class TestMappings {
 						
 						ActionMappings.addAlias("verysimple", "simple");
 						ActionMappings.addAlias("notverymulti", "multi");
+						
+						ActionMappings.addMapping("delete", "test.SimpleClass", 
+								new CommandRedirect("refresh", "list?"),
+								new CommandRedirect("rebuild", "list?", 301)
+						
+						);
 					
 					}
 				});
