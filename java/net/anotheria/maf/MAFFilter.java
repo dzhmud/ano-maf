@@ -176,7 +176,7 @@ public class MAFFilter implements Filter, IStatsProducer{
 			if (command!=null){
 				//support for 1.0 style
 				if (command instanceof ActionForward){
-					CommandForward forward = (CommandForward)command;
+					ActionForward forward = (ActionForward)command;
 					req.getRequestDispatcher(forward.getPath()).forward(req, res);
 				}
 				if (command instanceof CommandForward){
