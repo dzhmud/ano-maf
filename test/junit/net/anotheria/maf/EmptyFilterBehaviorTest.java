@@ -18,7 +18,7 @@ import net.anotheria.anoprise.mocking.Mocking;
 import org.junit.Test;
 import static org.junit.Assert.*;
 
-public class TestEmptyFilterBehavior {
+public class EmptyFilterBehaviorTest {
 	//tests whether an unconfigured filters answers 404 to each request.
 	@Test public void testUnconfiguredFilter() throws ServletException, IOException{
 		MAFFilter filter = new MAFFilter(){

@@ -12,15 +12,17 @@ import java.util.List;
 import javax.servlet.FilterConfig;
 import javax.servlet.ServletContext;
 
-import net.anotheria.maf.action.ActionForward;
+import net.anotheria.maf.action.ActionCommand;
 import net.anotheria.maf.action.ActionMapping;
 import net.anotheria.maf.action.ActionMappings;
 import net.anotheria.maf.action.ActionMappingsConfigurator;
+import net.anotheria.maf.action.CommandForward;
+import net.anotheria.maf.action.CommandRedirect;
 
 import org.junit.Before;
 import org.junit.Test;
 
-public class TestMappings10Style {
+public class MappingsTest {
 	@Before public void setup() throws Exception{
 		
 		MAFFilter filter = new MAFFilter(){
@@ -30,16 +32,22 @@ public class TestMappings10Style {
 					
 					@Override
 					public void configureActionMappings() {
-						ActionMappings.addMapping("simple", "test.SimpleClass", new ActionForward("simple", "Simple.jsp"));
+						ActionMappings.addMapping("simple", "test.SimpleClass", new CommandForward("simple", "Simple.jsp"));
 
 						ActionMappings.addMapping("multi", "test.MultiClass", 
-								new ActionForward("varianta", "VariantA.jsp"),
-								new ActionForward("variantb", "VariantB.jsp"),
-								new ActionForward("variantc", "VariantC.jsp")
+								new CommandForward("varianta", "VariantA.jsp"),
+								new CommandForward("variantb", "VariantB.jsp"),
+								new CommandForward("variantc", "VariantC.jsp")
 						);
 						
 						ActionMappings.addAlias("verysimple", "simple");
 						ActionMappings.addAlias("notverymulti", "multi");
+						
+						ActionMappings.addMapping("delete", "test.SimpleClass", 
+								new CommandRedirect("refresh", "list?"),
+								new CommandRedirect("rebuild", "list?", 301)
+						
+						);
 					
 					}
 				});
@@ -80,24 +88,24 @@ public class TestMappings10Style {
 		
 		assertNull(ActionMappings.findMapping("nonexisting"));
 		
-		assertNotNull(ActionMappings.findMapping("simple").findForward("simple"));
-		assertNull(ActionMappings.findMapping("simple").findForward("not-existing"));
+		assertNotNull(ActionMappings.findMapping("simple").findCommand("simple"));
+		assertNull(ActionMappings.findMapping("simple").findCommand("not-existing"));
 		
 	}
 	
 	@Test public void testAlias(){
 		assertNotNull(ActionMappings.findMapping("verysimple"));
-		assertNotNull(ActionMappings.findMapping("simple").findForward("simple"));
-		assertNull(ActionMappings.findMapping("simple").findForward("not-existing"));
+		assertNotNull(ActionMappings.findMapping("simple").findCommand("simple"));
+		assertNull(ActionMappings.findMapping("simple").findCommand("not-existing"));
 	}
 	
 	@Test public void testForward(){
 		ActionMapping mapping = ActionMappings.findMapping("multi");
-		ActionForward f1 = mapping.findForward("varianta");
-		ActionForward f1_1 = mapping.findForward("varianta");
-		ActionForward f2 = mapping.findForward("variantb");
-		ActionForward f3 = mapping.findForward("variantc");
-		ActionForward f4 = mapping.findForward("not-existing");
+		ActionCommand f1 = mapping.findCommand("varianta");
+		ActionCommand f1_1 = mapping.findCommand("varianta");
+		ActionCommand f2 = mapping.findCommand("variantb");
+		ActionCommand f3 = mapping.findCommand("variantc");
+		ActionCommand f4 = mapping.findCommand("not-existing");
 		
 		assertEquals(f1, f1_1);
 		assertFalse(f1.equals(f2));
