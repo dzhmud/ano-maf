@@ -60,7 +60,7 @@ public final class ActionMappings {
 	 * @param forwards
 	 */
 	public static void addMapping(String path, Class<? extends Action> type, ActionForward... forwards){
-		addMapping(path, type, forwards);
+		mappings.put(path, new ActionMapping(path, type.getName(), forwards));
 	}
 
 	/**

@@ -1,6 +1,6 @@
 package net.anotheria.maf.action;
 
-public class CommandRedirect extends ActionCommand{
+public class CommandRedirect extends ActionCommand implements Cloneable{
 	private String target;
 	private int code;
 	
@@ -24,6 +24,24 @@ public class CommandRedirect extends ActionCommand{
 
 	public int getCode() {
 		return code;
+	}
+	
+	public CommandRedirect clone(){
+		try{
+			return (CommandRedirect)super.clone();
+		}catch(CloneNotSupportedException e){
+			throw new AssertionError("Can't happen");
+		}
+	}
+	
+	public CommandRedirect addParameter(String name, String value){
+		CommandRedirect ret = clone();
+		if (ret.target.indexOf('?')==-1)
+			ret.target += "?";
+		else
+			ret.target += "&";
+		ret.target += name+"="+value;
+		return ret;
 	}
 	
 }

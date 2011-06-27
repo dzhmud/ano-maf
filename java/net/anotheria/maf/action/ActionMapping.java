@@ -57,4 +57,17 @@ public class ActionMapping {
 	public String getType(){
 		return type;  
 	}
+	
+	public ActionCommand success(){
+		return findCommand("success");
+	}
+	public ActionCommand error(){
+		return findCommand("error");
+	}
+	public ActionCommand dialog(){
+		return findCommand("dialog");
+	}
+	public CommandRedirect redirect(){
+		return (CommandRedirect)findCommand("redirect");
+	}
 }
