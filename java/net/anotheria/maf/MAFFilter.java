@@ -160,6 +160,8 @@ public class MAFFilter implements Filter, IStatsProducer{
 						}
 					}
 				}
+				
+				//System.out.println("Calling execute on action "+action+" actionclass "+action.getClass());
 				if (command==null)
 					command = action.execute(mapping, bean, req, res);
 
