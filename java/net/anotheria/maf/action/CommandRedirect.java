@@ -1,15 +1,37 @@
 package net.anotheria.maf.action;
 
+/**
+ * This type of action command is used for redirects.
+ * @author lrosenberg
+ *
+ */
 public class CommandRedirect extends ActionCommand implements Cloneable{
+	/**
+	 * Redirect target.
+	 */
 	private String target;
+	/**
+	 * Redirect http code (301,302).
+	 */
 	private int code;
 	
+	/**
+	 * Creates a new redirect.
+	 * @param name
+	 * @param aTarget
+	 * @param aCode
+	 */
 	public CommandRedirect(String name, String aTarget, int aCode){
 		super(name);
 		target = aTarget;
 		code = aCode;
 	}
 	
+	/**
+	 * Creates a new 302 redirect.
+	 * @param name
+	 * @param target
+	 */
 	public CommandRedirect(String name, String target){
 		this(name, target, 302);
 	}
@@ -34,6 +56,12 @@ public class CommandRedirect extends ActionCommand implements Cloneable{
 		}
 	}
 	
+	/**
+	 * Adds a parameter to redirected url.
+	 * @param name
+	 * @param value
+	 * @return
+	 */
 	public CommandRedirect addParameter(String name, String value){
 		CommandRedirect ret = clone();
 		if (ret.target.indexOf('?')==-1)
