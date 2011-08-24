@@ -1,42 +1,49 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 
-  <parent>
+	<parent>
+		<groupId>net.anotheria</groupId>
+		<artifactId>parent</artifactId>
+		<version>1.10</version>
+	</parent>
+
+	<modelVersion>4.0.0</modelVersion>
 	<groupId>net.anotheria</groupId>
-	<artifactId>parent</artifactId>
-	<version>1.10</version>
-  </parent>
+	<artifactId>ano-maf</artifactId>
+	<version>1.1.2-SNAPSHOT</version>
+	<name>anotheria micro action framework</name>
 
-  <modelVersion>4.0.0</modelVersion>
-  <groupId>net.anotheria</groupId>
-  <artifactId>ano-maf</artifactId>
-  <version>1.1.2-SNAPSHOT</version>
-  <name>anotheria micro action framework</name>
-
-  <dependencies>
-	<dependency>
-		<groupId>net.anotheria</groupId>
-		<artifactId>ano-util</artifactId>
-		<version>1.0.1</version>
-	</dependency>
-	<dependency>
-		<groupId>net.anotheria</groupId>
-		<artifactId>ano-prise</artifactId>
-		<version>1.0.1</version>
-	</dependency>
-	
-	<dependency>
-		<groupId>net.anotheria</groupId>
-		<artifactId>moskito-core</artifactId>
-		<version>1.1.5</version>
-	</dependency>
-
-	<dependency>
-    	<groupId>javax.servlet</groupId>
-    	<artifactId>servlet-api</artifactId>
-    	<scope>provided</scope>
-	</dependency>	
-	
-  </dependencies>
+	<dependencies>
+		<dependency>
+			<groupId>net.anotheria</groupId>
+			<artifactId>ano-util</artifactId>
+			<version>1.0.12-SNAPSHOT</version>
+		</dependency>	
+		<dependency>
+			<groupId>net.anotheria</groupId>
+			<artifactId>moskito-util</artifactId>
+			<version>1.1.6</version>
+		</dependency>	
+		<dependency>
+			<groupId>net.anotheria</groupId>
+			<artifactId>moskito-core</artifactId>
+			<version>1.1.6</version>
+		</dependency>		
+		<dependency>
+			<groupId>net.anotheria</groupId>
+			<artifactId>ano-prise</artifactId>
+			<version>1.0.19</version>
+		</dependency>
+		<dependency>
+			<groupId>javax.servlet</groupId>
+			<artifactId>servlet-api</artifactId>
+			<version>2.5</version>
+		</dependency>
+		<dependency>
+			<groupId>javax.servlet.jsp</groupId>
+			<artifactId>jsp-api</artifactId>
+			<version>2.2</version>
+		</dependency>
+	</dependencies>
 
 	<scm>
 		<url>svn:svn://svn.anotheria.net/opensource/ano-maf/trunk</url>
