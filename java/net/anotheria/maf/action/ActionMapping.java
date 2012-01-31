@@ -70,4 +70,14 @@ public class ActionMapping {
 	public CommandRedirect redirect(){
 		return (CommandRedirect)findCommand("redirect");
 	}
+	
+	@Override public String toString(){
+		return getPath()+" - "+getType()+" - "+commands;
+	}
+	
+	public Map<String, ActionCommand> getCommands(){
+		HashMap<String, ActionCommand> ret = new HashMap<String, ActionCommand>();
+		ret.putAll(commands);
+		return ret;
+	}
 }

@@ -1,7 +1,11 @@
-package net.anotheria.maf.action;
+ package net.anotheria.maf.action;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
+
+import net.anotheria.maf.builtin.ShowMappingsAction;
 
 /**
  * Configuration of the Framework. This class contains all mappings the framework will react on.
@@ -17,7 +21,12 @@ public final class ActionMappings {
 	/**
 	 * Action mappings.O
 	 */
-	private static final ConcurrentMap<String, ActionMapping> mappings = new ConcurrentHashMap<String, ActionMapping>(); 
+	private static final ConcurrentMap<String, ActionMapping> mappings = new ConcurrentHashMap<String, ActionMapping>();
+	
+	static{
+		aliases.put("maf/showMappings", "/maf/showMappings");
+		mappings.put("/maf/showMappings", new ActionMapping("/maf/showMappings", ShowMappingsAction.class.getName()));
+	}
 
 	/**
 	 * Adds a mapping.
@@ -73,11 +82,26 @@ public final class ActionMappings {
 	}
 	
 	public static ActionMapping findMapping(String actionPath){
+		System.out.println("%%% SEARCHING "+actionPath+" in "+mappings);
 		String alias = aliases.get(actionPath);
 		if (alias!=null)
 			return findMapping(alias);
 		return mappings.get(actionPath);
 	}
 	
-	private ActionMappings(){}
+	public static Map<String, String> getAliases(){
+		HashMap<String, String> ret = new HashMap<String, String>();
+		ret.putAll(aliases);
+		return ret;
+	}
+	
+	//TODO this method allows indirect modification of action mappings, it should probably instead clone the mappings (TOFIX).
+	public static Map<String, ActionMapping> getMappings(){
+		HashMap<String, ActionMapping> ret = new HashMap<String, ActionMapping>();
+		ret.putAll(mappings);
+		return ret;
+	}
+	
+	private ActionMappings(){
+	}
 }
