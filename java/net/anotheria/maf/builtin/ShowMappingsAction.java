@@ -1,13 +1,12 @@
 package net.anotheria.maf.builtin;
 
-import java.io.OutputStream;
 import java.io.OutputStreamWriter;
-import java.util.HashMap;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import net.anotheria.maf.MAFExecutionContext;
 import net.anotheria.maf.action.AbstractAction;
 import net.anotheria.maf.action.ActionCommand;
 import net.anotheria.maf.action.ActionMapping;
@@ -31,7 +30,8 @@ public class ShowMappingsAction extends AbstractAction{
 		
 		XMLNode root = new XMLNode("mappings");
 		XMLNode aliases = new XMLNode("aliases");
-		Map<String,String> aliasesMap = ActionMappings.getAliases();
+		ActionMappings actionMappings = MAFExecutionContext.currentExecutionContext().getMappings();
+		Map<String,String> aliasesMap = actionMappings.getAliases();
 		for (Map.Entry<String, String> e : aliasesMap.entrySet()){
 			XMLNode a = new XMLNode("alias");
 			a.addAttribute(new XMLAttribute("source", e.getKey()));
@@ -40,7 +40,7 @@ public class ShowMappingsAction extends AbstractAction{
 		}
 		
 		XMLNode mappings = new XMLNode("actions");
-		Map<String,ActionMapping> mappingsMap = ActionMappings.getMappings();
+		Map<String,ActionMapping> mappingsMap = actionMappings.getMappings();
 		for (Map.Entry<String, ActionMapping> e : mappingsMap.entrySet()){
 			XMLNode m = new XMLNode("action");
 			m.addAttribute(new XMLAttribute("path", e.getValue().getPath()));

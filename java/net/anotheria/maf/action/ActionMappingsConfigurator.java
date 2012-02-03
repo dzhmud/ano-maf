@@ -9,5 +9,5 @@ public interface ActionMappingsConfigurator {
 	/**
 	 * Called to add mapping configuration.
 	 */
-	void configureActionMappings();
+	void configureActionMappings(ActionMappings mappings);
 }

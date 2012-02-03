@@ -21,6 +21,9 @@ import org.junit.Before;
 import org.junit.Test;
 
 public class Mappings10StyleTest {
+	
+	private ActionMappings storedMappings;
+	
 	@Before public void setup() throws Exception{
 		
 		MAFFilter filter = new MAFFilter(){
@@ -29,17 +32,18 @@ public class Mappings10StyleTest {
 				configurators.add(new ActionMappingsConfigurator() {
 					
 					@Override
-					public void configureActionMappings() {
-						ActionMappings.addMapping("simple", "test.SimpleClass", new ActionForward("simple", "Simple.jsp"));
+					public void configureActionMappings(ActionMappings mappings) {
+						storedMappings = mappings;
+						mappings.addMapping("simple", "test.SimpleClass", new ActionForward("simple", "Simple.jsp"));
 
-						ActionMappings.addMapping("multi", "test.MultiClass", 
+						mappings.addMapping("multi", "test.MultiClass", 
 								new ActionForward("varianta", "VariantA.jsp"),
 								new ActionForward("variantb", "VariantB.jsp"),
 								new ActionForward("variantc", "VariantC.jsp")
 						);
 						
-						ActionMappings.addAlias("verysimple", "simple");
-						ActionMappings.addAlias("notverymulti", "multi");
+						mappings.addAlias("verysimple", "simple");
+						mappings.addAlias("notverymulti", "multi");
 					
 					}
 				});
@@ -75,24 +79,24 @@ public class Mappings10StyleTest {
 	}
 	
 	@Test public void testMappings(){
-		assertNotNull(ActionMappings.findMapping("simple"));
-		assertNotNull(ActionMappings.findMapping("multi"));
+		assertNotNull(storedMappings.findMapping("simple"));
+		assertNotNull(storedMappings.findMapping("multi"));
 		
-		assertNull(ActionMappings.findMapping("nonexisting"));
+		assertNull(storedMappings.findMapping("nonexisting"));
 		
-		assertNotNull(ActionMappings.findMapping("simple").findForward("simple"));
-		assertNull(ActionMappings.findMapping("simple").findForward("not-existing"));
+		assertNotNull(storedMappings.findMapping("simple").findForward("simple"));
+		assertNull(storedMappings.findMapping("simple").findForward("not-existing"));
 		
 	}
 	
 	@Test public void testAlias(){
-		assertNotNull(ActionMappings.findMapping("verysimple"));
-		assertNotNull(ActionMappings.findMapping("simple").findForward("simple"));
-		assertNull(ActionMappings.findMapping("simple").findForward("not-existing"));
+		assertNotNull(storedMappings.findMapping("verysimple"));
+		assertNotNull(storedMappings.findMapping("simple").findForward("simple"));
+		assertNull(storedMappings.findMapping("simple").findForward("not-existing"));
 	}
 	
 	@Test public void testForward(){
-		ActionMapping mapping = ActionMappings.findMapping("multi");
+		ActionMapping mapping = storedMappings.findMapping("multi");
 		ActionForward f1 = mapping.findForward("varianta");
 		ActionForward f1_1 = mapping.findForward("varianta");
 		ActionForward f2 = mapping.findForward("variantb");

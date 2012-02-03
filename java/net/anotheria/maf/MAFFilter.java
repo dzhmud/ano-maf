@@ -65,6 +65,8 @@ public class MAFFilter implements Filter, IStatsProducer{
 	 */
 	private static Logger log = Logger.getLogger(MAFFilter.class);
 	
+	private ActionMappings mappings;
+	
 	@Override
 	public void destroy() {
 		
@@ -80,10 +82,12 @@ public class MAFFilter implements Filter, IStatsProducer{
 		if (path==null)
 			path = "";
 		
+		mappings = new ActionMappings();
+		
 		List<ActionMappingsConfigurator> configurators = getConfigurators();
 		for (ActionMappingsConfigurator configurator : configurators){
 			try{
-				configurator.configureActionMappings();
+				configurator.configureActionMappings(mappings);
 			}catch(Throwable t){
 				log.fatal("Configuration failed by configurator "+configurator, t);
 			}
@@ -95,6 +99,10 @@ public class MAFFilter implements Filter, IStatsProducer{
 			chain.doFilter(sreq, sres);
 			return;
 		}
+		
+		MAFExecutionContext executionContext = MAFExecutionContext.currentExecutionContext();
+		executionContext.setFilter(this);
+		executionContext.setMappings(mappings);
 		
 		HttpServletRequest req = (HttpServletRequest)sreq;
 		HttpServletResponse res = (HttpServletResponse)sres;
@@ -126,6 +134,9 @@ public class MAFFilter implements Filter, IStatsProducer{
 	}
  
 	private void doPerform(HttpServletRequest req, HttpServletResponse res, String servletPath) throws ServletException, IOException {
+		
+		System.out.println("doPerform "+servletPath);
+		
 		getStats.addRequest();
 		long startTime = System.nanoTime();
 		try{
@@ -134,7 +145,7 @@ public class MAFFilter implements Filter, IStatsProducer{
 				if (getDefaultActionName()!=null)
 					actionPath = getDefaultActionName();
 			}
-			ActionMapping mapping = ActionMappings.findMapping(actionPath);
+			ActionMapping mapping = mappings.findMapping(actionPath);
 			if (mapping == null){
 				res.sendError(404, "Action "+actionPath+" not found.");
 				return;

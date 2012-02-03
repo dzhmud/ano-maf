@@ -41,18 +41,18 @@ public class MAFFilterTest {
 				configurators.add(new ActionMappingsConfigurator() {
 
 					@Override
-					public void configureActionMappings() {
-						ActionMappings.addMapping("simple", "test.SimpleClass", new ActionForward("simple", "Simple.jsp"));
-						ActionMappings.addMapping("testAction", "net.anotheria.maf.TestCustomAction", new ActionForward("simple", "Simple.jsp"));
+					public void configureActionMappings(ActionMappings mappings) {
+						mappings.addMapping("simple", "test.SimpleClass", new ActionForward("simple", "Simple.jsp"));
+						mappings.addMapping("testAction", "net.anotheria.maf.TestCustomAction", new ActionForward("simple", "Simple.jsp"));
 
-						ActionMappings.addMapping("multi", "test.MultiClass",
+						mappings.addMapping("multi", "test.MultiClass",
 								new ActionForward("varianta", "VariantA.jsp"),
 								new ActionForward("variantb", "VariantB.jsp"),
 								new ActionForward("variantc", "VariantC.jsp")
 						);
 
-						ActionMappings.addAlias("verysimple", "simple");
-						ActionMappings.addAlias("notverymulti", "multi");
+						mappings.addAlias("verysimple", "simple");
+						mappings.addAlias("notverymulti", "multi");
 
 					}
 				});

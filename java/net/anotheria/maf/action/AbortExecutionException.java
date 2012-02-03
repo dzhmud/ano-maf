@@ -6,5 +6,10 @@ package net.anotheria.maf.action;
  *
  */
 public class AbortExecutionException extends Exception{
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	
 }
