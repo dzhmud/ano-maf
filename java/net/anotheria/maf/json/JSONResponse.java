@@ -282,8 +282,8 @@ public class JSONResponse implements JSONErrorScope {
 			errorsScope.put(fieldName, new JSONArray(fieldErrors.get(fieldName)));
 
 		// prepare inner-scopes
-		for (String innerScopeName : innerScopes.keySet())
-			errorsScope.put(innerScopeName, innerScopes.get(innerScopeName).getErrorsJSON());
+		for (String myInnerScopeName : innerScopes.keySet())
+			errorsScope.put(myInnerScopeName, innerScopes.get(myInnerScopeName).getErrorsJSON());
 
 		return errorsScope;
 	}
