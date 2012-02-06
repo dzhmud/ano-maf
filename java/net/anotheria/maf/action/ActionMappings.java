@@ -77,7 +77,6 @@ public final class ActionMappings {
 	}
 	
 	public ActionMapping findMapping(String actionPath){
-		System.out.println("%%% SEARCHING "+actionPath+" in "+mappings);
 		String alias = aliases.get(actionPath);
 		if (alias!=null)
 			return findMapping(alias);

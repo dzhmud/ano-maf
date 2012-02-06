@@ -1,4 +1,4 @@
-	package net.anotheria.maf;
+package net.anotheria.maf;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -135,8 +135,6 @@ public class MAFFilter implements Filter, IStatsProducer{
  
 	private void doPerform(HttpServletRequest req, HttpServletResponse res, String servletPath) throws ServletException, IOException {
 		
-		System.out.println("doPerform "+servletPath);
-		
 		getStats.addRequest();
 		long startTime = System.nanoTime();
 		try{
@@ -172,7 +170,6 @@ public class MAFFilter implements Filter, IStatsProducer{
 					}
 				}
 				
-				//System.out.println("Calling execute on action "+action+" actionclass "+action.getClass());
 				if (command==null)
 					command = action.execute(mapping, bean, req, res);
 
