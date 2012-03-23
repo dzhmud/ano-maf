@@ -1,18 +1,5 @@
 package net.anotheria.maf;
 
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-
-import javax.servlet.Filter;
-import javax.servlet.FilterChain;
-import javax.servlet.FilterConfig;
-import javax.servlet.ServletException;
-import javax.servlet.ServletRequest;
-import javax.servlet.ServletResponse;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
 import net.anotheria.maf.action.AbortExecutionException;
 import net.anotheria.maf.action.Action;
 import net.anotheria.maf.action.ActionCommand;
@@ -24,11 +11,16 @@ import net.anotheria.maf.action.ActionMappings;
 import net.anotheria.maf.action.ActionMappingsConfigurator;
 import net.anotheria.maf.action.CommandForward;
 import net.anotheria.maf.action.CommandRedirect;
+import net.anotheria.maf.annotation.ActionAnnotation;
+import net.anotheria.maf.annotation.ActionsAnnotation;
+import net.anotheria.maf.annotation.CommandForwardAnnotation;
+import net.anotheria.maf.annotation.CommandRedirectAnnotation;
 import net.anotheria.maf.bean.FormBean;
 import net.anotheria.maf.util.FormObjectMapper;
 import net.anotheria.maf.validation.ValidationAware;
 import net.anotheria.maf.validation.ValidationError;
 import net.anotheria.maf.validation.ValidationException;
+import net.anotheria.util.StringUtils;
 import net.java.dev.moskito.core.predefined.Constants;
 import net.java.dev.moskito.core.predefined.FilterStats;
 import net.java.dev.moskito.core.predefined.ServletStats;
@@ -36,8 +28,23 @@ import net.java.dev.moskito.core.producers.IStats;
 import net.java.dev.moskito.core.producers.IStatsProducer;
 import net.java.dev.moskito.core.registry.ProducerRegistryFactory;
 import net.java.dev.moskito.core.stats.Interval;
-
 import org.apache.log4j.Logger;
+import org.reflections.Reflections;
+
+import javax.servlet.Filter;
+import javax.servlet.FilterChain;
+import javax.servlet.FilterConfig;
+import javax.servlet.ServletException;
+import javax.servlet.ServletRequest;
+import javax.servlet.ServletResponse;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 /**
  * MAFFilter is the dispatcher filter of the MAF. We are using a Filter instead of Servlet to be able to inject MAF parts in huge we-map-everything-through-one-servlet systems (aka spring).
@@ -73,7 +80,7 @@ public class MAFFilter implements Filter, IStatsProducer{
 	}
 
 	@Override public void init(FilterConfig config) throws ServletException {
-		getStats          = new FilterStats("cumulated", getMonitoringIntervals());
+		getStats = new FilterStats("cumulated", getMonitoringIntervals());
 		cachedStatList = new ArrayList<IStats>();
 		cachedStatList.add(getStats);
 		ProducerRegistryFactory.getProducerRegistryInstance().registerProducer(this);
@@ -92,9 +99,51 @@ public class MAFFilter implements Filter, IStatsProducer{
 				log.fatal("Configuration failed by configurator "+configurator, t);
 			}
 		}
+
+        // Configure by annotations
+        String annotatedActionsPackage = config.getInitParameter("configureByAnnotations");
+        if (StringUtils.isEmpty(annotatedActionsPackage)) {
+            return;
+        }
+
+        Reflections reflections = new Reflections(annotatedActionsPackage);
+
+        // Process ActionAnnotation annotation
+        Set<Class<?>> actionTypes = new HashSet<Class<?>>();
+        actionTypes.addAll(reflections.getTypesAnnotatedWith(ActionAnnotation.class));
+        actionTypes.addAll(reflections.getTypesAnnotatedWith(ActionsAnnotation.class));
+        for(Class<?> clazz: actionTypes) {
+            if (!Action.class.isAssignableFrom(clazz)) {
+                String message = "Class " + clazz.getName() + " annotated with " + ActionAnnotation.class.getName() + " or " + ActionsAnnotation.class.getName() + " is not inherited from " + Action.class.getName();
+                log.error(message);
+                throw new RuntimeException(message);
+            }
+            List<ActionAnnotation> maps = new ArrayList<ActionAnnotation>();
+            ActionAnnotation mapAnnotation = clazz.getAnnotation(ActionAnnotation.class);
+            if (mapAnnotation != null) {
+                maps.add(mapAnnotation);
+            }
+            ActionsAnnotation mapsAnnotation = clazz.getAnnotation(ActionsAnnotation.class);
+            if (mapsAnnotation != null) {
+                Collections.addAll(maps, mapsAnnotation.maps());
+            }
+            for (ActionAnnotation map: maps) {
+                if (!path.equals(map.context())) {
+                    continue;
+                }
+                List<ActionCommand> forwards = new ArrayList<ActionCommand>();
+                for (CommandForwardAnnotation forward: map.forwards()) {
+                    forwards.add(new CommandForward(forward.name(), forward.path()));
+                }
+                for (CommandRedirectAnnotation redirect: map.redirects()) {
+                    forwards.add(new CommandRedirect(redirect.name(), redirect.target(), redirect.code()));
+                }
+                mappings.addMapping(map.path(), (Class<Action>)clazz, forwards.toArray(new ActionCommand[forwards.size()]));
+            }
+        }
 	}
 
-	@Override public void doFilter(ServletRequest sreq, ServletResponse sres,	FilterChain chain) throws IOException, ServletException {
+	@Override public void doFilter(ServletRequest sreq, ServletResponse sres, FilterChain chain) throws IOException, ServletException {
 		if (!(sreq instanceof HttpServletRequest)){
 			chain.doFilter(sreq, sres);
 			return;
