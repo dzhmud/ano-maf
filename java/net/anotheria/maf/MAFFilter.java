@@ -102,13 +102,13 @@ public class MAFFilter implements Filter, IStatsProducer{
 
         // Configure by annotations
         String annotatedActionsPackage = config.getInitParameter("configureByAnnotations");
-        if (StringUtils.isEmpty(annotatedActionsPackage)) {
-            return;
+        if (!StringUtils.isEmpty(annotatedActionsPackage)) {
+            configureByAnnotations(annotatedActionsPackage);
         }
+	}
 
+    private void configureByAnnotations(String annotatedActionsPackage) {
         Reflections reflections = new Reflections(annotatedActionsPackage);
-
-        // Process ActionAnnotation annotation
         Set<Class<?>> actionTypes = new HashSet<Class<?>>();
         actionTypes.addAll(reflections.getTypesAnnotatedWith(ActionAnnotation.class));
         actionTypes.addAll(reflections.getTypesAnnotatedWith(ActionsAnnotation.class));
@@ -141,7 +141,7 @@ public class MAFFilter implements Filter, IStatsProducer{
                 mappings.addMapping(map.path(), (Class<Action>)clazz, forwards.toArray(new ActionCommand[forwards.size()]));
             }
         }
-	}
+    }
 
 	@Override public void doFilter(ServletRequest sreq, ServletResponse sres, FilterChain chain) throws IOException, ServletException {
 		if (!(sreq instanceof HttpServletRequest)){
