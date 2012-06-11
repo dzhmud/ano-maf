@@ -340,5 +340,13 @@ public class MAFFilter implements Filter, IStatsProducer{
 	protected String getDefaultActionName(){
 		return null;
 	}
+
+	protected ActionFactory getActionFactory() {
+		return actionFactory;
+	}
+
+	protected void setActionFactory(ActionFactory actionFactory) {
+		this.actionFactory = actionFactory;
+	}
 	
 }
