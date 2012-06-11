@@ -1,5 +1,21 @@
 package net.anotheria.maf;
 
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+
+import javax.servlet.Filter;
+import javax.servlet.FilterChain;
+import javax.servlet.FilterConfig;
+import javax.servlet.ServletException;
+import javax.servlet.ServletRequest;
+import javax.servlet.ServletResponse;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 import net.anotheria.maf.action.AbortExecutionException;
 import net.anotheria.maf.action.Action;
 import net.anotheria.maf.action.ActionCommand;
@@ -11,6 +27,7 @@ import net.anotheria.maf.action.ActionMappings;
 import net.anotheria.maf.action.ActionMappingsConfigurator;
 import net.anotheria.maf.action.CommandForward;
 import net.anotheria.maf.action.CommandRedirect;
+import net.anotheria.maf.action.DefaultActionFactory;
 import net.anotheria.maf.annotation.ActionAnnotation;
 import net.anotheria.maf.annotation.ActionsAnnotation;
 import net.anotheria.maf.annotation.CommandForwardAnnotation;
@@ -28,23 +45,9 @@ import net.java.dev.moskito.core.producers.IStats;
 import net.java.dev.moskito.core.producers.IStatsProducer;
 import net.java.dev.moskito.core.registry.ProducerRegistryFactory;
 import net.java.dev.moskito.core.stats.Interval;
+
 import org.apache.log4j.Logger;
 import org.reflections.Reflections;
-
-import javax.servlet.Filter;
-import javax.servlet.FilterChain;
-import javax.servlet.FilterConfig;
-import javax.servlet.ServletException;
-import javax.servlet.ServletRequest;
-import javax.servlet.ServletResponse;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
 
 /**
  * MAFFilter is the dispatcher filter of the MAF. We are using a Filter instead of Servlet to be able to inject MAF parts in huge we-map-everything-through-one-servlet systems (aka spring).
@@ -74,6 +77,11 @@ public class MAFFilter implements Filter, IStatsProducer{
 	
 	private ActionMappings mappings;
 	
+	/**
+	 * Actionfactory instance to create and manage action objects;
+	 */
+	private ActionFactory actionFactory = new DefaultActionFactory();
+	
 	@Override
 	public void destroy() {
 		
@@ -88,6 +96,15 @@ public class MAFFilter implements Filter, IStatsProducer{
 		path = config.getInitParameter("path");
 		if (path==null)
 			path = "";
+		
+		String actionFactoryClazzName = config.getInitParameter("actionFactory");
+		if (actionFactoryClazzName!=null && actionFactoryClazzName.length()>0){
+			try{
+				actionFactory = (ActionFactory)Class.forName(actionFactoryClazzName).newInstance();
+			}catch(Exception e){
+				log.error("Couldn't initialize custom actionFactory: "+actionFactoryClazzName, e);
+			}
+		}
 		
 		mappings = new ActionMappings();
 		
@@ -199,7 +216,7 @@ public class MAFFilter implements Filter, IStatsProducer{
 			}
 			Action action;
 			try{
-				action = ActionFactory.getInstanceOf(mapping.getType());
+				action = actionFactory.getInstanceOf(mapping.getType());
 			}catch(ActionFactoryException e){
 				throw new ServletException("Can't instantiate "+mapping.getType()+" for path: "+actionPath+", because: "+e.getMessage(), e);
 			}
