@@ -1,5 +1,10 @@
 package net.anotheria.maf.action;
 
+/**
+ * A command that is returned by the action and signalizes to the maf filter what to do next.
+ * @author lrosenberg
+ *
+ */
 public class ActionCommand {
 	/**
 	 * Name of the command.
