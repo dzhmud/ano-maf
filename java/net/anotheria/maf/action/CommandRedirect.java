@@ -48,7 +48,7 @@ public class CommandRedirect extends ActionCommand implements Cloneable{
 		return code;
 	}
 	
-	public CommandRedirect clone(){
+	@Override public CommandRedirect clone(){
 		try{
 			return (CommandRedirect)super.clone();
 		}catch(CloneNotSupportedException e){
