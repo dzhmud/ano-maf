@@ -105,7 +105,6 @@ public class MAFFilter implements Filter, IStatsProducer{
 		getStats = new FilterStats("cumulated", getMonitoringIntervals());
 		cachedStatList = new ArrayList<IStats>();
 		cachedStatList.add(getStats);
-		ProducerRegistryFactory.getProducerRegistryInstance().registerProducer(this);
 		
 		path = config.getInitParameter("path");
 		if (path==null)
@@ -123,6 +122,8 @@ public class MAFFilter implements Filter, IStatsProducer{
         if (category==null)
             category = "filter";
 		
+		ProducerRegistryFactory.getProducerRegistryInstance().registerProducer(this);
+
 		String actionFactoryClazzName = config.getInitParameter("actionFactory");
 		if (actionFactoryClazzName!=null && actionFactoryClazzName.length()>0){
 			try{
