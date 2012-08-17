@@ -69,7 +69,21 @@ public class MAFFilter implements Filter, IStatsProducer{
 	 * Path on which to react.
 	 */
 	private String path;
-	
+    /**
+     * Unique identificator of this producer (the class name of filter or a readable form of it).
+     * @see IStatsProducer
+     */
+    private String producerId;
+    /**
+     * The id of the category the producer belongs to.
+     * @see IStatsProducer
+     */
+    private String subsystem;
+    /**
+     * The id of the subsystem the producer belongs to.
+     * @see IStatsProducer
+     */
+    private String category;
 	/**
 	 * Log.
 	 */
@@ -78,7 +92,7 @@ public class MAFFilter implements Filter, IStatsProducer{
 	private ActionMappings mappings;
 	
 	/**
-	 * Actionfactory instance to create and manage action objects;
+	 * Actionfactory instance to create and manage action objects.
 	 */
 	private ActionFactory actionFactory = new DefaultActionFactory();
 	
@@ -96,6 +110,18 @@ public class MAFFilter implements Filter, IStatsProducer{
 		path = config.getInitParameter("path");
 		if (path==null)
 			path = "";
+
+        producerId = config.getInitParameter("producerId");
+        if (producerId==null)
+            producerId = "maffilter";
+
+        subsystem = config.getInitParameter("subsystem");
+        if (subsystem==null)
+            subsystem = "maf";
+
+        category = config.getInitParameter("category");
+        if (category==null)
+            category = "filter";
 		
 		String actionFactoryClazzName = config.getInitParameter("actionFactory");
 		if (actionFactoryClazzName!=null && actionFactoryClazzName.length()>0){
@@ -314,15 +340,15 @@ public class MAFFilter implements Filter, IStatsProducer{
 	}
 
 	@Override public String getProducerId() {
-		return "maffilter";
-	}
+        return producerId;
+    }
 
 	@Override public String getSubsystem() {
-		return "maf";
+        return subsystem;
 	}
 
 	@Override public String getCategory() {
-		return "filter";
+         return category;
 	}
 	
 	/**
