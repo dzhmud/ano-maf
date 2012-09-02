@@ -8,7 +8,7 @@
 
 	<modelVersion>4.0.0</modelVersion>
 	<artifactId>ano-maf</artifactId>
-	<version>1.2.2-SNAPSHOT</version>
+	<version>1.3.0</version>
 	<name>anotheria micro action framework</name>
 
 	<dependencies>
@@ -48,9 +48,9 @@
 	</dependencies>
 
 	<scm>
-		<url>svn:svn://svn.anotheria.net/opensource/ano-maf/trunk</url>
-		<connection>scm:svn:svn://svn.anotheria.net/opensource/ano-maf/trunk</connection>
-		<developerConnection>scm:svn:svn://svn.anotheria.net/opensource/ano-maf/trunk</developerConnection>
+		<url>svn:svn://svn.anotheria.net/opensource/ano-maf/tags/ano-maf-1.3.0</url>
+		<connection>scm:svn:svn://svn.anotheria.net/opensource/ano-maf/tags/ano-maf-1.3.0</connection>
+		<developerConnection>scm:svn:svn://svn.anotheria.net/opensource/ano-maf/tags/ano-maf-1.3.0</developerConnection>
 	</scm>
 
     <repositories>
