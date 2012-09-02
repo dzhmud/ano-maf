@@ -22,6 +22,16 @@ public final class ActionMappings {
 	 * Action mappings.O
 	 */
 	private final ConcurrentMap<String, ActionMapping> mappings = new ConcurrentHashMap<String, ActionMapping>();
+
+	/**
+	 * This command will be executed if an error happens during the command execution.  We recommend to use a CommandForward. You can access original error under the name maf.error in the request.
+	 */
+	private ActionCommand onError;
+
+	/**
+	 * This command is executed if a not found action has been requested. We recommend to use a CommandRedirect.
+	 */
+	private ActionCommand onNotFound;
 	
 	/**
 	 * Adds a mapping.
@@ -88,7 +98,7 @@ public final class ActionMappings {
 		ret.putAll(aliases);
 		return ret;
 	}
-	
+
 	//TODO this method allows indirect modification of action mappings, it should probably instead clone the mappings (TOFIX).
 	public Map<String, ActionMapping> getMappings(){
 		HashMap<String, ActionMapping> ret = new HashMap<String, ActionMapping>();
@@ -100,4 +110,21 @@ public final class ActionMappings {
 		addAlias("maf/showMappings", "/maf/showMappings");
 		addMapping("/maf/showMappings", ShowMappingsAction.class);
 	}
+	public ActionCommand getOnError() {
+		return onError;
+	}
+
+	public void setOnError(ActionCommand onError) {
+		this.onError = onError;
+	}
+
+	public ActionCommand getOnNotFound() {
+		return onNotFound;
+	}
+
+	public void setOnNotFound(ActionCommand onNotFound) {
+		this.onNotFound = onNotFound;
+	}
+
+
 }

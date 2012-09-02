@@ -32,6 +32,7 @@ import net.anotheria.maf.annotation.ActionAnnotation;
 import net.anotheria.maf.annotation.ActionsAnnotation;
 import net.anotheria.maf.annotation.CommandForwardAnnotation;
 import net.anotheria.maf.annotation.CommandRedirectAnnotation;
+import net.anotheria.maf.bean.ErrorBean;
 import net.anotheria.maf.bean.FormBean;
 import net.anotheria.maf.util.FormObjectMapper;
 import net.anotheria.maf.validation.ValidationAware;
@@ -273,30 +274,20 @@ public class MAFFilter implements Filter, IStatsProducer{
 				//do nothing
 			}catch(Exception e){
 				log.error("Unexpected exception in processing", e);
-				throw new ServletException("Error in processing: "+e.getMessage(), e);
+				ActionCommand onError = mappings.getOnError();
+				if (onError==null){
+					throw new ServletException("Error in processing: "+e.getMessage(), e);
+				}else{
+					req.setAttribute(ErrorBean.NAME, new ErrorBean(e));
+					executeCommand(onError, req, res);
+				}
+
 			}
 			
 			if (command!=null){
 				//support for 1.0 style
-				if (command instanceof ActionForward){
-					ActionForward forward = (ActionForward)command;
-					req.getRequestDispatcher(forward.getPath()).forward(req, res);
-				}
-				if (command instanceof CommandForward){
-					CommandForward forward = (CommandForward)command;
-					req.getRequestDispatcher(forward.getPath()).forward(req, res);
-				}
-				if (command instanceof CommandRedirect){
-					CommandRedirect redirect = (CommandRedirect)command;
-					if (redirect.getCode()==302){
-						res.sendRedirect(redirect.getTarget());
-					}else{
-						res.setHeader("Location", redirect.getTarget());
-						res.setStatus(redirect.getCode());
-					}
-						
-				}
-			}	
+				executeCommand(command, req,  res);
+			}
 
 		}catch(ServletException e){
 			getStats.notifyServletException();
@@ -315,6 +306,28 @@ public class MAFFilter implements Filter, IStatsProducer{
 			getStats.addExecutionTime(executionTime);
 			getStats.notifyRequestFinished();
 		}
+	}
+
+	private void executeCommand(ActionCommand command, HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException{
+		if (command instanceof ActionForward){
+			ActionForward forward = (ActionForward)command;
+			req.getRequestDispatcher(forward.getPath()).forward(req, res);
+		}
+		if (command instanceof CommandForward){
+			CommandForward forward = (CommandForward)command;
+			req.getRequestDispatcher(forward.getPath()).forward(req, res);
+		}
+		if (command instanceof CommandRedirect){
+			CommandRedirect redirect = (CommandRedirect)command;
+			if (redirect.getCode()==302){
+				res.sendRedirect(redirect.getTarget());
+			}else{
+				res.setHeader("Location", redirect.getTarget());
+				res.setStatus(redirect.getCode());
+			}
+
+		}
+
 	}
 
 
