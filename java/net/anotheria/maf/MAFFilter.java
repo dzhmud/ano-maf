@@ -1,21 +1,5 @@
 package net.anotheria.maf;
 
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-
-import javax.servlet.Filter;
-import javax.servlet.FilterChain;
-import javax.servlet.FilterConfig;
-import javax.servlet.ServletException;
-import javax.servlet.ServletRequest;
-import javax.servlet.ServletResponse;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
 import net.anotheria.maf.action.AbortExecutionException;
 import net.anotheria.maf.action.Action;
 import net.anotheria.maf.action.ActionCommand;
@@ -38,17 +22,31 @@ import net.anotheria.maf.util.FormObjectMapper;
 import net.anotheria.maf.validation.ValidationAware;
 import net.anotheria.maf.validation.ValidationError;
 import net.anotheria.maf.validation.ValidationException;
+import net.anotheria.moskito.core.predefined.Constants;
+import net.anotheria.moskito.core.predefined.FilterStats;
+import net.anotheria.moskito.core.predefined.ServletStats;
+import net.anotheria.moskito.core.producers.IStats;
+import net.anotheria.moskito.core.producers.IStatsProducer;
+import net.anotheria.moskito.core.registry.ProducerRegistryFactory;
+import net.anotheria.moskito.core.stats.Interval;
 import net.anotheria.util.StringUtils;
-import net.java.dev.moskito.core.predefined.Constants;
-import net.java.dev.moskito.core.predefined.FilterStats;
-import net.java.dev.moskito.core.predefined.ServletStats;
-import net.java.dev.moskito.core.producers.IStats;
-import net.java.dev.moskito.core.producers.IStatsProducer;
-import net.java.dev.moskito.core.registry.ProducerRegistryFactory;
-import net.java.dev.moskito.core.stats.Interval;
-
 import org.apache.log4j.Logger;
 import org.reflections.Reflections;
+
+import javax.servlet.Filter;
+import javax.servlet.FilterChain;
+import javax.servlet.FilterConfig;
+import javax.servlet.ServletException;
+import javax.servlet.ServletRequest;
+import javax.servlet.ServletResponse;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 /**
  * MAFFilter is the dispatcher filter of the MAF. We are using a Filter instead of Servlet to be able to inject MAF parts in huge we-map-everything-through-one-servlet systems (aka spring).
@@ -56,7 +54,7 @@ import org.reflections.Reflections;
  * @author lrosenberg
  *
  */
-public class MAFFilter implements Filter, IStatsProducer{
+public class MAFFilter implements Filter, IStatsProducer {
 
 	/**
 	 * Stats for get request.
