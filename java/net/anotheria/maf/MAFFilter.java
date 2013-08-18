@@ -30,8 +30,11 @@ import net.anotheria.moskito.core.producers.IStatsProducer;
 import net.anotheria.moskito.core.registry.ProducerRegistryFactory;
 import net.anotheria.moskito.core.stats.Interval;
 import net.anotheria.util.StringUtils;
-import org.apache.log4j.Logger;
 import org.reflections.Reflections;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.slf4j.Marker;
+import org.slf4j.MarkerFactory;
 
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
@@ -56,6 +59,11 @@ import java.util.Set;
  */
 public class MAFFilter implements Filter, IStatsProducer {
 
+
+	/**
+	 * Marker.
+	 */
+	private static final Marker FATAL = MarkerFactory.getMarker("FATAL");
 	/**
 	 * Stats for get request.
 	 */
@@ -86,7 +94,7 @@ public class MAFFilter implements Filter, IStatsProducer {
 	/**
 	 * Log.
 	 */
-	private static Logger log = Logger.getLogger(MAFFilter.class);
+	private static Logger log = LoggerFactory.getLogger(MAFFilter.class);
 	
 	private ActionMappings mappings;
 	
@@ -139,7 +147,7 @@ public class MAFFilter implements Filter, IStatsProducer {
 			try{
 				configurator.configureActionMappings(mappings);
 			}catch(Throwable t){
-				log.fatal("Configuration failed by configurator "+configurator, t);
+				log.error(FATAL, "Configuration failed by configurator " + configurator, t);
 			}
 		}
 

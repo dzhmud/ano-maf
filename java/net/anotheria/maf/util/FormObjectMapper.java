@@ -1,18 +1,5 @@
 package net.anotheria.maf.util;
 
-import java.lang.annotation.Annotation;
-import java.lang.reflect.Field;
-import java.lang.reflect.Method;
-import java.util.ArrayList;
-import java.util.Enumeration;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import javax.servlet.http.Cookie;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
 import net.anotheria.maf.action.Action;
 import net.anotheria.maf.action.ActionMapping;
 import net.anotheria.maf.bean.FormBean;
@@ -28,8 +15,20 @@ import net.anotheria.util.StringUtils;
 import net.anotheria.util.mapper.PopulateMe;
 import net.anotheria.util.mapper.PopulateWith;
 import net.anotheria.util.mapper.ValueObjectMapperUtil;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-import org.apache.log4j.Logger;
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.lang.annotation.Annotation;
+import java.lang.reflect.Field;
+import java.lang.reflect.Method;
+import java.util.ArrayList;
+import java.util.Enumeration;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Model Object mapper.
@@ -45,7 +44,7 @@ public final class FormObjectMapper {
 	/**
 	 * Mapper log.
 	 */
-	private static final Logger LOGGER = Logger.getLogger(FormObjectMapper.class);
+	private static final Logger LOGGER = LoggerFactory.getLogger(FormObjectMapper.class);
 
 	/**
 	 * action execute method name.
@@ -147,11 +146,11 @@ public final class FormObjectMapper {
 
 			}
 		} catch (NoSuchMethodException e) {
-			LOGGER.error(e);
+			LOGGER.error("getModelObjectMapped", e);
 		} catch (InstantiationException e) {
-			LOGGER.error(e);
+			LOGGER.error("getModelObjectMapped", e);
 		} catch (IllegalAccessException e) {
-			LOGGER.error(e);
+			LOGGER.error("getModelObjectMapped", e);
 		}
 		return null;
 	}
@@ -200,9 +199,9 @@ public final class FormObjectMapper {
 					}
 				}
 			} catch (IllegalAccessException e) {
-				LOGGER.error(e);
+				LOGGER.error("validate", e);
 			} catch (InstantiationException e) {
-				LOGGER.error(e);
+				LOGGER.error("validate", e);
 			}
 		}
 		return errors;
