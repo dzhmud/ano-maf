@@ -59,9 +59,9 @@
         </dependency>
 	</dependencies>
 
-	<scm>
-		<url>svn:svn://svn.anotheria.net/opensource/ano-maf/trunk</url>
-		<connection>scm:svn:svn://svn.anotheria.net/opensource/ano-maf/trunk</connection>
-		<developerConnection>scm:svn:svn://svn.anotheria.net/opensource/ano-maf/trunk</developerConnection>
-	</scm>
+    <scm>
+            <url>https://github.com/anotheria/ano-maf</url>
+            <connection>scm:git:git@github.com:anotheria/ano-maf.git</connection>
+            <developerConnection>scm:git:git@github.com:anotheria/ano-maf.git</developerConnection>
+    </scm>
 </project>
