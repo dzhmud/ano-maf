@@ -29,7 +29,9 @@ public class MonitoringActionFactory implements ActionFactory{
 			return action;
 		try{
 			action = (Action) Class.forName(actionType).newInstance();
-			action = ProxyUtils.createServiceInstance(action, null, "action", "action", Action.class);
+			int index = actionType.lastIndexOf('.');
+			String name = index == -1 ? actionType : actionType.substring(index);
+			action = ProxyUtils.createServiceInstance(action, name, "action", "action", Action.class);
 		}catch(Exception e){
 			throw new ActionFactoryException(e);
 		}
