@@ -1,24 +1,22 @@
 package net.anotheria.maf;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
-
-import java.util.ArrayList;
-import java.util.Enumeration;
-import java.util.List;
-
-import javax.servlet.FilterConfig;
-import javax.servlet.ServletContext;
-
 import net.anotheria.maf.action.ActionForward;
 import net.anotheria.maf.action.ActionMapping;
 import net.anotheria.maf.action.ActionMappings;
 import net.anotheria.maf.action.ActionMappingsConfigurator;
-
 import org.junit.Before;
 import org.junit.Test;
+
+import javax.servlet.FilterConfig;
+import javax.servlet.ServletContext;
+import java.util.ArrayList;
+import java.util.Enumeration;
+import java.util.List;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
 
 public class Mappings10StyleTest {
 	
@@ -59,7 +57,7 @@ public class Mappings10StyleTest {
 			}
 
 			@Override
-			public Enumeration<?> getInitParameterNames() {
+			public Enumeration<String> getInitParameterNames() {
 				return null;
 			}
 			
