@@ -30,7 +30,7 @@ public class MonitoringActionFactory implements ActionFactory{
 		try{
 			action = (Action) Class.forName(actionType).newInstance();
 			int index = actionType.lastIndexOf('.');
-			String name = index == -1 ? actionType : actionType.substring(index);
+			String name = index == -1 ? actionType : actionType.substring(index+1);
 			action = ProxyUtils.createServiceInstance(action, name, "action", "action", Action.class);
 		}catch(Exception e){
 			throw new ActionFactoryException(e);
