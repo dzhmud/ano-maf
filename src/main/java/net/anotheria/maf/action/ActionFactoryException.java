@@ -1,5 +1,8 @@
 package net.anotheria.maf.action;
 
+/**
+ * Exception class for the ActionFactory.
+ */
 public class ActionFactoryException extends Exception {
 
 	/**
