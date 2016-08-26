@@ -1,11 +1,5 @@
 package net.anotheria.maf.builtin;
 
-import java.io.OutputStreamWriter;
-import java.util.Map;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
 import net.anotheria.maf.MAFExecutionContext;
 import net.anotheria.maf.action.AbstractAction;
 import net.anotheria.maf.action.ActionCommand;
@@ -16,8 +10,15 @@ import net.anotheria.util.xml.XMLAttribute;
 import net.anotheria.util.xml.XMLNode;
 import net.anotheria.util.xml.XMLTree;
 
-public class ShowMappingsAction extends AbstractAction{
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.OutputStreamWriter;
+import java.util.Map;
 
+/**
+ * Show configured mappings in this ano-maf instance.
+ */
+public class ShowMappingsAction extends AbstractAction{
 
 	@Override
 	public ActionCommand execute(ActionMapping mapping, FormBean formBean,
@@ -64,6 +65,4 @@ public class ShowMappingsAction extends AbstractAction{
 		return null;
 		
 	}
-
-
 }

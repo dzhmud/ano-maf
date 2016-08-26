@@ -5,6 +5,7 @@ package net.anotheria.maf.validation;
  * <p/>
  *
  * @author vitaliy
+ * @param T type of the field this validator supports.
  * @version 1.0
  *          Date: Jan 16, 2010
  *          Time: 9:23:55 PM
@@ -17,5 +18,5 @@ public interface Validator<T> {
 	 * @param field value to check
 	 * @return true if valid
 	 */
-	public boolean validate(T field);
+	boolean validate(T field);
 }

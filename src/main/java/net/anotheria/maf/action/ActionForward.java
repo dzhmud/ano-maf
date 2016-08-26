@@ -3,7 +3,7 @@ package net.anotheria.maf.action;
 /**
  * Return object of an action execution. Defines the processing of action results.
  * @author lrosenberg
- * @Deprecated use CommandForward instead.
+ * @deprecated use CommandForward instead.
  *
  */
 public class ActionForward extends ActionCommand{
