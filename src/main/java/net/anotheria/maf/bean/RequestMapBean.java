@@ -4,7 +4,6 @@ import java.util.Map;
 
 /**
  * Marker interface used to define form backing bean.
- * <p/>
  *
  * @author vitaliy
  * @version 1.0

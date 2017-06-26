@@ -7,7 +7,7 @@ import net.anotheria.util.StringUtils;
 /**
  * Validator class for validating email addresses. Allows empty values. 
  * If this is not allowed, combine it with <b>@ValidateNotEmpty</b> annotation. 
- * Usage:<p>@ValidateCustom(class="net.anotheria.maf.validation.EmailValidator" key="" message="")<br/>
+ * Usage:<p>@ValidateCustom(class="net.anotheria.maf.validation.EmailValidator" key="" message="")
  * private String email;</p>
  * 
  * @author dzhmud

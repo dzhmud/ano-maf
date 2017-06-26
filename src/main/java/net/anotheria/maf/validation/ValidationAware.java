@@ -12,7 +12,6 @@ import net.anotheria.maf.bean.FormBean;
 /**
  * Custom error handler used to process validation errors,
  * action should implement this interface to customize error handling.
- * <p/>
  *
  * @author vitaliy
  * @version 1.0

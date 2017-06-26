@@ -3,9 +3,7 @@ package net.anotheria.maf.validation;
 /**
  * Validation error.
  *
- * <p/>
  * <P>Used to pass.
- * <p/>
  *
  * @author vitaliy
  * @version 1.0

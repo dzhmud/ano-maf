@@ -8,7 +8,6 @@ import java.lang.annotation.Target;
 
 /**
  * Create and register custom validation implementation.
- * <p/>
  *
  * @author vitaliy
  * @version 1.0

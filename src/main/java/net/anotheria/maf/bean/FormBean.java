@@ -2,7 +2,6 @@ package net.anotheria.maf.bean;
 
 /**
  * Marker interface used to define form backing bean.
- * <p/>
  *
  * @author vitaliy
  * @version 1.0

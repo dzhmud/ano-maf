@@ -5,9 +5,7 @@ import java.util.List;
 /**
  * Validation error.
  *
- * <p/>
  * <P>Used to pass.
- * <p/>
  *
  * @author vitaliy
  * @version 1.0
