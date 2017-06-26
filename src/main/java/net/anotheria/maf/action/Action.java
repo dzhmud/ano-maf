@@ -12,10 +12,10 @@ import javax.servlet.http.HttpServletResponse;
 public interface Action {
 	/**
 	 * Called by the framework prior to call to the execute. Useful for action hierarchies to put common activities (authorisation checks etc) into classes higher in the class hierarchy.
-	 * @param mapping
-	 * @param req
-	 * @param res
-	 * @throws Exception
+	 * @param mapping action mapping
+	 * @param req http request
+	 * @param res http response
+	 * @throws Exception any exception
 	 */
 	void preProcess(ActionMapping mapping, HttpServletRequest req, HttpServletResponse res) throws Exception;
 	/**
@@ -30,10 +30,10 @@ public interface Action {
 	ActionCommand execute(ActionMapping mapping, FormBean formBean, HttpServletRequest req, HttpServletResponse res) throws Exception;
 	/**
 	 * Called by the framework after call to the execute.
-	 * @param mapping
-	 * @param req
-	 * @param res
-	 * @throws Exception
+	 * @param mapping action mapping
+	 * @param req http request
+	 * @param res http response
+	 * @throws Exception any exception
 	 */
 	void postProcess(ActionMapping mapping, HttpServletRequest req, HttpServletResponse res) throws Exception; 
 }

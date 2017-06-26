@@ -9,8 +9,12 @@ public class ActionCommand {
 	/**
 	 * Name of the command.
 	 */
-	private String name;  
-	
+	private final String name;
+
+	/**
+	 * Creates ActionCommand with given name.
+	 * @param aName name of the ActionCommand.
+	 */
 	public ActionCommand(String aName){
 		name = aName;
 	}

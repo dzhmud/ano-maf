@@ -16,14 +16,18 @@ public class MAFExecutionContext {
 	 * Current mappings.
 	 */
 	private ActionMappings mappings;
-	
+	/** InheritableThreadLocal that holds current MAFExecutionContext. */
 	private static final InheritableThreadLocal<MAFExecutionContext> context = new InheritableThreadLocal<MAFExecutionContext>(){
 		@Override
 		protected synchronized MAFExecutionContext initialValue() {
 			return new MAFExecutionContext();
 		}
 	};
-	
+
+	/**
+	 * Get current MAFExecutionContext.
+	 * @return current MAFExecutionContext.
+	 */
 	public static final MAFExecutionContext currentExecutionContext(){
 		return context.get();
 	}

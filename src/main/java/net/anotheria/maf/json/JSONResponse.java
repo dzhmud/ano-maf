@@ -126,7 +126,7 @@ public class JSONResponse implements JSONErrorScope {
 	}
 
 	/**
-	 * Get response raw data
+	 * Get response raw data.
 	 * 
 	 * @return {@link Map} with raw data
 	 */
@@ -258,8 +258,8 @@ public class JSONResponse implements JSONErrorScope {
 		JSONObject commandsScope = new JSONObject();
 
 		// prepare field-scope errors
-		for (String commandName : commands.keySet())
-			commandsScope.put(commandName, commands.get(commandName));
+		for (Map.Entry<String,String> command : commands.entrySet())
+			commandsScope.put(command.getKey(), command.getValue());
 
 		return commandsScope;
 	}
@@ -278,12 +278,12 @@ public class JSONResponse implements JSONErrorScope {
 			errorsScope.put(ERRORS_SCOPE_GLOBAL_ERRORS, new JSONArray(globalErrors));
 
 		// prepare field-scope errors
-		for (String fieldName : fieldErrors.keySet())
-			errorsScope.put(fieldName, new JSONArray(fieldErrors.get(fieldName)));
+		for (Map.Entry<String,Set<String>> fieldError : fieldErrors.entrySet())
+			errorsScope.put(fieldError.getKey(), new JSONArray(fieldError.getValue()));
 
 		// prepare inner-scopes
-		for (String myInnerScopeName : innerScopes.keySet())
-			errorsScope.put(myInnerScopeName, innerScopes.get(myInnerScopeName).getErrorsJSON());
+		for (Map.Entry<String,JSONResponse> myInnerScope : innerScopes.entrySet())
+			errorsScope.put(myInnerScope.getKey(), myInnerScope.getValue().getErrorsJSON());
 
 		return errorsScope;
 	}

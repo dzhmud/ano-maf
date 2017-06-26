@@ -8,6 +8,7 @@ package net.anotheria.maf.action;
 public interface ActionMappingsConfigurator {
 	/**
 	 * Called to add mapping configuration.
+	 * @param mappings {@link ActionMappings} to configure.
 	 */
 	void configureActionMappings(ActionMappings mappings);
 }

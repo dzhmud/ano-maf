@@ -4,7 +4,6 @@ import java.util.Map;
 
 /**
  * Marker interface used to define form backing bean.
- * <p/>
  *
  * @author vitaliy
  * @version 1.0
@@ -14,7 +13,7 @@ import java.util.Map;
 public class RequestMapBean implements FormBean {
 
 	/**
-	 * Request parameters
+	 * Request parameters.
 	 */
 	private final Map<String, Object> parameters;
 
@@ -29,7 +28,7 @@ public class RequestMapBean implements FormBean {
 	private final Map<String, String> header;
 
 	/**
-	 * Default constructor
+	 * Default constructor.
 	 *
 	 * @param parameters http parameters
 	 * @param cookie http cookies
@@ -72,4 +71,5 @@ public class RequestMapBean implements FormBean {
 				+ ", header=" + header
 				+ '}';
 	}
+
 }

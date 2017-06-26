@@ -7,7 +7,6 @@ import java.lang.annotation.Target;
 
 /**
  * Mark fields and parameters then require presence validation.
- * <p/>
  *
  * @author vitaliy
  * @version 1.0

@@ -32,7 +32,6 @@ import java.util.Map;
 
 /**
  * Model Object mapper.
- * <p/>
  *
  * @author vitaliy
  * @version 1.0
@@ -59,7 +58,6 @@ public final class FormObjectMapper {
 
 	/**
 	 * Map request parameters to model bean.
-	 * </p>
 	 * <p>
 	 * Internal model bean content can be mapped using Dozer notation
 	 * (arrays, collections) for parameter name
@@ -156,10 +154,11 @@ public final class FormObjectMapper {
 	}
 
 	/**
-	 * Validate mapped bean according defined preconditions.
+	 * Validate mapped bean according to defined preconditions.
 	 *
 	 * @param req  http request
 	 * @param bean backing bean
+	 * @return list of all found errors(but max one error for field)
 	 */
 	public static List<ValidationError> validate(final HttpServletRequest req, final Object bean) {
 		List<ValidationError> errors = new ArrayList<ValidationError>();

@@ -5,6 +5,9 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
+/**
+ * Validates that annotated field or parameter holds a number.
+ */
 @Retention(RetentionPolicy.RUNTIME)
 @Target({ElementType.FIELD, ElementType.PARAMETER })
 public @interface ValidateNumber {
@@ -22,7 +25,7 @@ public @interface ValidateNumber {
 	String message() default "";
 	
 	/**
-	 * Boolean customizing if annotated field can be a fractional number
+	 * Boolean customizing if annotated field can be a fractional number.
 	 * @return true if annotated field should represent float or double value, 
 	 * false - if it should represent integral value;
 	 */

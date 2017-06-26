@@ -5,7 +5,7 @@ package net.anotheria.maf.action;
  * @author lrosenberg
  *
  */
-public class CommandRedirect extends ActionCommand implements Cloneable{
+public class CommandRedirect extends ActionCommand implements Cloneable {
 	/**
 	 * Redirect target.
 	 */
@@ -17,11 +17,11 @@ public class CommandRedirect extends ActionCommand implements Cloneable{
 	
 	/**
 	 * Creates a new redirect.
-	 * @param name
-	 * @param aTarget
-	 * @param aCode
+	 * @param name name of the command.
+	 * @param aTarget target of the redirect.
+	 * @param aCode Http code to send with redirect.
 	 */
-	public CommandRedirect(String name, String aTarget, int aCode){
+	public CommandRedirect(String name, String aTarget, int aCode) {
 		super(name);
 		target = aTarget;
 		code = aCode;
@@ -29,8 +29,8 @@ public class CommandRedirect extends ActionCommand implements Cloneable{
 	
 	/**
 	 * Creates a new 302 redirect.
-	 * @param name
-	 * @param target
+	 * @param name name of the command.
+	 * @param target target of the redirect.
 	 */
 	public CommandRedirect(String name, String target){
 		this(name, target, 302);
@@ -48,19 +48,19 @@ public class CommandRedirect extends ActionCommand implements Cloneable{
 		return code;
 	}
 	
-	@Override public CommandRedirect clone(){
-		try{
-			return (CommandRedirect)super.clone();
-		}catch(CloneNotSupportedException e){
+	@Override public CommandRedirect clone() {
+		try {
+			return CommandRedirect.class.cast(super.clone());
+		} catch(CloneNotSupportedException e) {
 			throw new AssertionError("Can't happen");
 		}
 	}
 	
 	/**
 	 * Adds a parameter to redirected url.
-	 * @param name
-	 * @param value
-	 * @return
+	 * @param name parameter name.
+	 * @param value parameter value.
+	 * @return clone of this CommandRedirect with added parameter.
 	 */
 	public CommandRedirect addParameter(String name, String value){
 		CommandRedirect ret = clone();

@@ -15,7 +15,7 @@ public interface JSONErrorScope extends Serializable {
 	 * @param error
 	 *            - error text
 	 */
-	void addError(final String error);
+	void addError(String error);
 
 	/**
 	 * Add field error for this response-scope.
@@ -25,7 +25,7 @@ public interface JSONErrorScope extends Serializable {
 	 * @param error
 	 *            - error text
 	 */
-	void addError(final String fieldName, final String error);
+	void addError(String fieldName, String error);
 
 	/**
 	 * Get error object to error scope. New instance will be created if object not found in errors scope.
@@ -34,6 +34,6 @@ public interface JSONErrorScope extends Serializable {
 	 *            - inner error object name in error scope
 	 * @return {@link JSONErrorScope}
 	 */
-	JSONErrorScope getErrorObject(final String objectName);
+	JSONErrorScope getErrorObject(String objectName);
 
 }

@@ -2,10 +2,9 @@ package net.anotheria.maf.validation;
 
 /**
  * Custom validator used to customize and define own checks.
- * <p/>
  *
  * @author vitaliy
- * @param T type of the field this validator supports.
+ * @param <T> type of the field this validator supports.
  * @version 1.0
  *          Date: Jan 16, 2010
  *          Time: 9:23:55 PM
