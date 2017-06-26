@@ -27,8 +27,8 @@ public interface ValidationAware {
 	 * @param errors Validation errors.
 	 * @param req http servlet request.
 	 * @param res http servlet response.
-	 * @return
-	 * @throws Exception
+	 * @return ActionCommand to execute.
+	 * @throws Exception if can't handle it.
 	 */
 	ActionCommand executeOnValidationError(ActionMapping mapping, FormBean formBean, List<ValidationError> errors, HttpServletRequest req, HttpServletResponse res) throws Exception;
 }

@@ -18,10 +18,8 @@ public class MonitoringActionFactory implements ActionFactory{
 	 */
 	private static final ConcurrentMap<String, Action> instances = new ConcurrentHashMap<String, Action>();
 	/**
-	 * Returns an instance of defined action type.
-	 * @param actionType
-	 * @return
-	 * @throws ActionFactoryException
+	 *{@inheritDoc}
+	 * Wraps any created Action into Service proxy for monitoring purposes.
 	 */
 	@Override public Action getInstanceOf(String actionType) throws ActionFactoryException{
 		Action action = instances.get(actionType);

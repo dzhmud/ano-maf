@@ -13,6 +13,7 @@ import net.anotheria.util.xml.XMLTree;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.OutputStreamWriter;
+import java.nio.charset.Charset;
 import java.util.Map;
 
 /**
@@ -25,7 +26,7 @@ public class ShowMappingsAction extends AbstractAction{
 			HttpServletRequest req, HttpServletResponse res) throws Exception {
 		
 		res.setContentType("text/xml");
-		OutputStreamWriter out = new OutputStreamWriter(res.getOutputStream());
+		OutputStreamWriter out = new OutputStreamWriter(res.getOutputStream(), Charset.forName("UTF-8"));
 		
 		XMLTree tree = new XMLTree();
 		

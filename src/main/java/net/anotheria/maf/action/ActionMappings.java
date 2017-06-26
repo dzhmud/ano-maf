@@ -19,7 +19,7 @@ public final class ActionMappings {
 	 */
 	private final ConcurrentMap<String, String> aliases = new ConcurrentHashMap<String, String>();
 	/**
-	 * Action mappings.O
+	 * Action mappings.
 	 */
 	private final ConcurrentMap<String, ActionMapping> mappings = new ConcurrentHashMap<String, ActionMapping>();
 
@@ -35,9 +35,9 @@ public final class ActionMappings {
 	
 	/**
 	 * Adds a mapping.
-	 * @param path
-	 * @param type
-	 * @param commands
+	 * @param path path to which given ActionCommand(s) are mapped.
+	 * @param type type of ActionMapping created.
+	 * @param commands var-arg array of ActionCommands to map to given path.
 	 */
 	public void addMapping(String path, String type, ActionCommand... commands){
 		mappings.put(path, new ActionMapping(path, type, commands));
@@ -45,9 +45,9 @@ public final class ActionMappings {
 
 	/**
 	 * Adds a mapping.
-	 * @param path
-	 * @param type
-	 * @param forwards
+	 * @param path path to which given ActionForward(s) are mapped.
+	 * @param type type of ActionMapping created.
+	 * @param forwards var-arg array of ActionForwards to map to given path.
 	 */
 	public void addMapping(String path, String type, ActionForward... forwards){
 		mappings.put(path, new ActionMapping(path, type, forwards));
@@ -58,10 +58,10 @@ public final class ActionMappings {
 	}
 	
 	/**
-	 * Adds a mapping.
-	 * @param path
-	 * @param type
-	 * @param commands
+	 * Adds an 1.0 style mapping.
+	 * @param path path to which given ActionCommand(s) are mapped.
+	 * @param type type of ActionMapping created.
+	 * @param commands var-arg array of ActionCommands to map to given path.
 	 */
 	public void addMapping(String path, Class<? extends Action> type, ActionCommand... commands){
 		mappings.put(path, new ActionMapping(path, type.getName(), commands));
@@ -69,9 +69,9 @@ public final class ActionMappings {
 
 	/**
 	 * Adds an 1.0 style mapping.
-	 * @param path
-	 * @param type
-	 * @param forwards
+	 * @param path path to which given ActionForward(s) are mapped.
+	 * @param type type of ActionMapping created.
+	 * @param forwards var-arg array of ActionForwards to map to given path.
 	 */
 	public void addMapping(String path, Class<? extends Action> type, ActionForward... forwards){
 		mappings.put(path, new ActionMapping(path, type.getName(), forwards));
@@ -79,8 +79,8 @@ public final class ActionMappings {
 
 	/**
 	 * Adds an alias.
-	 * @param sourcePath
-	 * @param targetPath
+	 * @param sourcePath alias name.
+	 * @param targetPath alias target.
 	 */
 	public void addAlias(String sourcePath, String targetPath){
 		aliases.put(sourcePath, targetPath);

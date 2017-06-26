@@ -95,7 +95,9 @@ public class MAFFilter implements Filter, IStatsProducer {
 	 * Log.
 	 */
 	private static Logger log = LoggerFactory.getLogger(MAFFilter.class);
-	
+	/**
+	 * ActionMappings config.
+	 */
 	private ActionMappings mappings;
 	
 	/**
@@ -132,10 +134,10 @@ public class MAFFilter implements Filter, IStatsProducer {
 		ProducerRegistryFactory.getProducerRegistryInstance().registerProducer(this);
 
 		String actionFactoryClazzName = config.getInitParameter("actionFactory");
-		if (actionFactoryClazzName!=null && actionFactoryClazzName.length()>0){
-			try{
+		if (!StringUtils.isEmpty(actionFactoryClazzName)) {
+			try {
 				actionFactory = (ActionFactory)Class.forName(actionFactoryClazzName).newInstance();
-			}catch(Exception e){
+			} catch(Exception e) {
 				log.error("Couldn't initialize custom actionFactory: "+actionFactoryClazzName, e);
 			}
 		}
@@ -343,7 +345,7 @@ public class MAFFilter implements Filter, IStatsProducer {
 
 	/**
 	 * Override this method to setup custom monitoring intervals.
-	 * @return
+	 * @return array of monitoring intervals to use.
 	 */
 	protected Interval[] getMonitoringIntervals(){
 		return Constants.getDefaultIntervals();
@@ -373,15 +375,15 @@ public class MAFFilter implements Filter, IStatsProducer {
 	
 	/**
 	 * Overwrite this method and return configurators for your project.
-	 * @return
+	 * @return list of {@link ActionMappingsConfigurator} instances to configure your project.
 	 */
 	protected List<ActionMappingsConfigurator> getConfigurators(){
 		return new ArrayList<ActionMappingsConfigurator>();
 	}
 	
 	/**
-	 * if not null an empty path is replaced by this default action name, for example 'index'.
-	 * @return
+	 * If not null an empty path is replaced by this default action name, for example 'index'.
+	 * @return default action.
 	 */
 	protected String getDefaultActionName(){
 		return null;

@@ -14,6 +14,7 @@ import net.anotheria.util.StringUtils;
  */
 public class EmailValidator implements Validator<String> {
 
+	/** Regex pattern that checks that given string looks like valid email address. */
 	private static final Pattern pattern = Pattern.compile("^[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,6}$", Pattern.CASE_INSENSITIVE);
 	
 	@Override

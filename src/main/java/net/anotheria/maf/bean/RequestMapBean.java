@@ -13,7 +13,7 @@ import java.util.Map;
 public class RequestMapBean implements FormBean {
 
 	/**
-	 * Request parameters
+	 * Request parameters.
 	 */
 	private final Map<String, Object> parameters;
 
@@ -28,7 +28,7 @@ public class RequestMapBean implements FormBean {
 	private final Map<String, String> header;
 
 	/**
-	 * Default constructor
+	 * Default constructor.
 	 *
 	 * @param parameters http parameters
 	 * @param cookie http cookies
@@ -71,4 +71,5 @@ public class RequestMapBean implements FormBean {
 				+ ", header=" + header
 				+ '}';
 	}
+
 }

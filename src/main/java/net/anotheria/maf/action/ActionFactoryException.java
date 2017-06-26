@@ -12,7 +12,7 @@ public class ActionFactoryException extends Exception {
 
 	/**
 	 * Creates a new ActionFactoryException.
-	 * @param source
+	 * @param source source of created ActionFactoryException.
 	 */
 	public ActionFactoryException(Exception source) {
 		super("Action instantiation failed because: " + source.getMessage(), source);
