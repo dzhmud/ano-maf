@@ -296,13 +296,13 @@ public class MAFFilter implements Filter, IStatsProducer {
 			}
 
 		}catch(ServletException e){
-			getStats.notifyServletException();
+			getStats.notifyServletException(e);
 			throw e;
 		}catch(IOException e){
-			getStats.notifyIOException();
+			getStats.notifyIOException(e);
 			throw e;
 		}catch(RuntimeException e){
-			getStats.notifyRuntimeException();
+			getStats.notifyRuntimeException(e);
 			throw e;
 		}catch(Error e){
 			getStats.notifyError();
